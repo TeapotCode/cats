@@ -12,6 +12,12 @@ const routes: Routes = [
         loadChildren: async () =>
           (await import('../../home/feature/home.module')).HomeModule,
       },
+      {
+        path: 'favourite',
+        loadChildren: async () =>
+          (await import('../../favorites/feature/favorites.module'))
+            .FavoritesModule,
+      },
     ],
   },
 ];
