@@ -1,4 +1,3 @@
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -12,7 +11,6 @@ import { environment } from 'src/environments/environment.prod';
 import { ShellRoutingModule } from './shell-routing.module';
 import { ShellComponent } from './shell/shell.component';
 import { NavbarComponent } from '../ui/navbar/navbar.component';
-import { ApiInterceptor } from '../utils/api.interceptor';
 
 @NgModule({
   declarations: [ShellComponent, NavbarComponent],
@@ -30,7 +28,7 @@ import { ApiInterceptor } from '../utils/api.interceptor';
     MatBadgeModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
+    
   ],
 })
 export class ShellModule {}
