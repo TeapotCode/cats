@@ -1,1 +1,10 @@
 <app-filters></app-filters>
+
+<ng-container *ngFor="let image of images$ | async">
+  <app-card
+    [image]="image"
+    (like)="like(image.id, 1)"
+    (dislike)="dislike(image.id, -1)"
+    (undo)="undo(image.id, 0)"
+  ></app-card>
+</ng-container>

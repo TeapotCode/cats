@@ -1,1 +1,7 @@
-<p>card works!</p>
+<img [src]="image.url" />
+<ng-container *ngIf="!liked; else likedTemp">
+  <mat-icon class="up" (click)="onLike()">thumb_up</mat-icon
+  ><mat-icon class="down" (click)="onDislike()">thumb_down</mat-icon>
+</ng-container>
+
+<ng-template #likedTemp><p (click)="onUndo()">Usuń vote</p></ng-template>
