@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ApiInterceptor } from './shell/utils/api.interceptor';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiInterceptor } from './shell/utils/api.interceptor';
@@ -23,8 +25,12 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     RouterModule.forRoot(routes),
     HttpClientModule
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
   providers:[{ provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },]

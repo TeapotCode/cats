@@ -8,9 +8,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment.prod';
+import { NavbarComponent } from '../ui/navbar/navbar.component';
 import { ShellRoutingModule } from './shell-routing.module';
 import { ShellComponent } from './shell/shell.component';
-import { NavbarComponent } from '../ui/navbar/navbar.component';
 
 @NgModule({
   declarations: [ShellComponent, NavbarComponent],
@@ -26,9 +26,6 @@ import { NavbarComponent } from '../ui/navbar/navbar.component';
     MatButtonModule,
     MatIconModule,
     MatBadgeModule,
-  ],
-  providers: [
-    
   ],
 })
 export class ShellModule {}
