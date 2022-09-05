@@ -18,6 +18,11 @@ const routes: Routes = [
           (await import('../../favorites/feature/favorites.module'))
             .FavoritesModule,
       },
+      {
+        path: 'votes',
+        loadChildren: async () =>
+          (await import('../../votes/feature/votes.module')).VotesModule,
+      },
     ],
   },
 ];
