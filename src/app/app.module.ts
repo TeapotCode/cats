@@ -1,9 +1,11 @@
+import {HttpClientModule} from "@angular/common/http";
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
+
 
 const routes: Routes = [
   {
@@ -19,7 +21,13 @@ const routes: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
+    HttpClientModule
   ],
   bootstrap: [AppComponent],
+  exports: [
+  ],
+  providers: [
+    HttpClientModule
+  ]
 })
 export class AppModule {}
