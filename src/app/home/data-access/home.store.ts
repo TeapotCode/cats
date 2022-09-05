@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Image } from '../utils/image.interface';
 import { ComponentStore } from '@ngrx/component-store';
-import { Observable, switchMap, tap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
+import { Image } from '../utils/image.interface';
+import { Vote } from '../utils/vote.interface';
 import { ApiHomeService } from './api-home.service';
 
 export interface HomeState {
@@ -30,6 +31,15 @@ export class HomeStore extends ComponentStore<HomeState> {
         return this.api.getImages(limit);
       }),
       tap((response) => this.addImages(response))
+    );
+  });
+
+  readonly vote = this.effect((vote: Observable<Vote>) => {
+    return vote.pipe(
+      switchMap((vote) => {
+        return this.api.sendVote(vote.value, vote.image_id);
+      }),
+      map((response) => (response ? true : false))
     );
   });
 }
