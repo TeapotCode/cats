@@ -28,6 +28,7 @@ const routes: Routes = [
         loadChildren: async () =>
           (await import('../../votes/feature/votes.module')).VotesModule,
       },
+      { path: '**', redirectTo: 'home', pathMatch: 'full' },
     ],
   },
 ];
