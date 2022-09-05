@@ -1,1 +1,3 @@
-<p>votes works!</p>
+<div *ngIf="positiveImages$ | async as img">{{ img | json }}</div>
+o tutaj
+<div *ngIf="negativeImages$ | async as img">{{ img | json }}</div>

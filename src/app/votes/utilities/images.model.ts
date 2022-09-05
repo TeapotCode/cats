@@ -1,8 +1,9 @@
-export interface images {
+export interface Images {
   id: number;
-  user_id: string;
   image_id: string;
   created_at: string;
+  value: number;
+  country_code: string;
   image: {
     id: string;
     url: string;
