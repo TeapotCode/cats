@@ -1,3 +1,16 @@
-<div *ngIf="positiveImages$ | async as img">{{ img | json }}</div>
-o tutaj
-<div *ngIf="negativeImages$ | async as img">{{ img | json }}</div>
+<mat-list>
+  <div mat-subheader>Positive</div>
+
+  <app-positive-votes
+    *ngIf="positiveImages$ | async as positiveImages"
+    [images]="positiveImages"
+  ></app-positive-votes>
+
+  <mat-divider></mat-divider>
+  <div mat-subheader>Negative</div>
+
+  <app-positive-votes
+    *ngIf="negativeImages$ | async as negativeImages"
+    [images]="negativeImages"
+  ></app-positive-votes>
+</mat-list>
