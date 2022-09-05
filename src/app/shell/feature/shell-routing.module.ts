@@ -12,6 +12,11 @@ const routes: Routes = [
         loadChildren: async () =>
           (await import('../../home/feature/home.module')).HomeModule,
       },
+      {
+        path: 'votes',
+        loadChildren: async () =>
+          (await import('../../votes/feature/votes.module')).VotesModule,
+      },
     ],
   },
 ];
