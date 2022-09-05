@@ -13,6 +13,11 @@ const routes: Routes = [
           (await import('../../home/feature/home.module')).HomeModule,
       },
       {
+        path: 'upload',
+        loadChildren: async () =>
+          (await import('../../upload/feature/upload.module')).UploadModule,
+      },
+      {
         path: 'favourite',
         loadChildren: async () =>
           (await import('../../favorites/feature/favorites.module'))
