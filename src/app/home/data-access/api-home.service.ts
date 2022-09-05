@@ -13,4 +13,11 @@ export class ApiHomeService {
       `https://api.thecatapi.com/v1/images/search?limit=${number}`
     );
   }
+
+  sendVote(value: number, imageId: string) {
+    return this.httpClient.post('https://api.thecatapi.com/v1/votes', {
+      image_id: imageId,
+      value,
+    });
+  }
 }
