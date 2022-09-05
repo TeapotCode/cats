@@ -8,7 +8,7 @@ const routes: Routes = [
     component: ShellComponent,
     children: [
       {
-        path: '',
+        path: 'home',
         loadChildren: async () =>
           (await import('../../home/feature/home.module')).HomeModule,
       },
