@@ -11,7 +11,6 @@ export namespace Api {
     image_id: string;
     created_at: string;
     value: number;
-    country_code: string;
     image: {
       id: string;
       url: string;
@@ -21,11 +20,20 @@ export namespace Api {
   export interface FavoriteImage {
     id: number;
     image_id: string;
-    sub_id?: string;
     created_at: Date;
     image: {
       id: string;
       url: string;
     };
   }
+}
+
+export interface VoteFavImage extends Api.VoteImage {
+  favoriteId?: number;
+  isFavorite?: boolean;
+}
+
+export interface FavoriteVoteImage extends Api.FavoriteImage {
+  voteId?: number;
+  vote?: number;
 }

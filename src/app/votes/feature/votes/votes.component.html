@@ -1,16 +1,24 @@
-<mat-list>
+<!-- <mat-list *ngIf="images$ | async; else empty">
   <div mat-subheader>Positive</div>
 
-  <app-positive-votes
+  <app-display-votes
     *ngIf="positiveImages$ | async as positiveImages"
     [images]="positiveImages"
-  ></app-positive-votes>
+    (dislike)="onDislike($event)"
+    (like)="onLike($event)"
+    (delete)="onDeleteVote($event)"
+  ></app-display-votes>
 
   <mat-divider></mat-divider>
   <div mat-subheader>Negative</div>
 
-  <app-positive-votes
+  <app-display-votes
     *ngIf="negativeImages$ | async as negativeImages"
     [images]="negativeImages"
-  ></app-positive-votes>
-</mat-list>
+    (dislike)="onDislike($event)"
+    (like)="onLike($event)"
+    (delete)="onDeleteVote($event)"
+  ></app-display-votes>
+</mat-list> -->
+
+<ng-template #empty>Pusto</ng-template>
