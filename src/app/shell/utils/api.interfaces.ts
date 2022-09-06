@@ -27,5 +27,6 @@ export namespace Api {
       id: string;
       url: string;
     };
+    value?:number;
   }
 }
