@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import * as catsAction from '../../data-access/cats.action';
 
 @Component({
   selector: 'app-shell',
@@ -6,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./shell.component.scss'],
 })
 export class ShellComponent implements OnInit {
-  constructor() {}
+  constructor(private store: Store) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.dispatch(catsAction.loadFavouritesImages());
+    this.store.dispatch(catsAction.loadImagesWithVote());
+    this.store.dispatch(catsAction.loadRandomImages());
+  }
 }
