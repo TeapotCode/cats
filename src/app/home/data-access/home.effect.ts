@@ -26,6 +26,56 @@ export class HomeEffects {
     )
   );
 
+  likeImage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(homeAction.likeImage),
+      switchMap(({ imageId }) =>
+        this.api.sendVote(1, imageId).pipe(
+          map((response) =>
+            homeAction.setImageVoteId({
+              value: 1,
+              voteId: response.id,
+              imageId,
+            })
+          )
+        )
+      )
+    )
+  );
+
+  dislikeImage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(homeAction.dislikeImage),
+      switchMap(({ imageId }) =>
+        this.api.sendVote(-1, imageId).pipe(
+          map((response) =>
+            homeAction.setImageVoteId({
+              value: -1,
+              voteId: response.id,
+              imageId,
+            })
+          )
+        )
+      )
+    )
+  );
+
+  removeVote$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(homeAction.removeVote),
+      switchMap(({ voteId, imageId }) =>
+        this.api.removeVote(voteId).pipe(
+          map(() =>
+            homeAction.setImageVoteId({
+              value: 0,
+              voteId: 0,
+              imageId,
+            })
+          )
+        )
+      )
+    )
+  );
   constructor(
     private actions$: Actions,
     private store: Store,

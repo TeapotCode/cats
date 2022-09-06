@@ -15,9 +15,18 @@ export class ApiHomeService {
   }
 
   sendVote(value: number, imageId: string) {
-    return this.httpClient.post('https://api.thecatapi.com/v1/votes', {
-      image_id: imageId,
-      value,
-    });
+    return this.httpClient.post<{ message: string; id: number }>(
+      'https://api.thecatapi.com/v1/votes',
+      {
+        image_id: imageId,
+        value,
+      }
+    );
+  }
+
+  removeVote(voteId: number) {
+    return this.httpClient.delete(
+      `https://api.thecatapi.com/v1/votes/${voteId}`
+    );
   }
 }

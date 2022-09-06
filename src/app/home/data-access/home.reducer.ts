@@ -39,5 +39,16 @@ export const homeReducer = createReducer(
       ...state,
       images,
     };
+  }),
+
+  on(homeActions.setImageVoteId, (state, { value, voteId, imageId }) => {
+    const images = state.images.map((image) =>
+      image.imageId === imageId ? { ...image, vote: value, voteId } : image
+    );
+
+    return {
+      ...state,
+      images,
+    };
   })
 );

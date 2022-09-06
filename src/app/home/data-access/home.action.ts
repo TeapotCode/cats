@@ -6,13 +6,33 @@ import {
   Api,
 } from '../../shell/utils/api.interfaces';
 
-export const loadPhotos = createAction('[Main PAGE] Load random images');
+export const loadPhotos = createAction(
+  '[Home PAGE] Load random images request'
+);
 
 export const setPhotos = createAction(
-  '[Main PAGE] Set random images',
+  '[Home PAGE] Set random images',
   props<{
     newImages: Api.RandomImage[];
     voteImages: VoteFavImage[];
     favImages: FavoriteVoteImage[];
   }>()
+);
+
+export const likeImage = createAction(
+  '[Home PAGE] Like Image',
+  props<{ imageId: string }>()
+);
+export const dislikeImage = createAction(
+  '[Home PAGE] Dislike Image',
+  props<{ imageId: string }>()
+);
+export const removeVote = createAction(
+  '[Home PAGE] Remove Vote',
+  props<{ voteId: number; imageId: string }>()
+);
+
+export const setImageVoteId = createAction(
+  '[Home STORE] Set Image Vote',
+  props<{ value: number; voteId: number; imageId: string }>()
 );
