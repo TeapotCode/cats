@@ -50,5 +50,18 @@ export const homeReducer = createReducer(
       ...state,
       images,
     };
+  }),
+
+  on(homeActions.setFavorite, (state, { imageId, favoriteId }) => {
+    const images: RandomImage[] = state.images.map((value) =>
+      value.imageId === imageId
+        ? { ...value, favoriteId, isFavorite: !!favoriteId }
+        : value
+    );
+
+    return {
+      ...state,
+      images,
+    };
   })
 );

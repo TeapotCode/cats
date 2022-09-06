@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Image } from '../../utils/image.interface';
 import { RandomImage } from '../../utils/randomImage.interface';
 import { Store } from '@ngrx/store';
+import { switchFavorite } from '../../data-access/home.action';
 import {
   likeImage,
   dislikeImage,
@@ -32,5 +33,7 @@ export class CardComponent {
     );
   }
 
-  onFavorite() {}
+  onFavorite() {
+    this.store.dispatch(switchFavorite({ imageId: this.image.imageId }));
+  }
 }

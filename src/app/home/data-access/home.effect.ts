@@ -5,6 +5,7 @@ import { map, switchMap } from 'rxjs';
 import { selectAll } from '../../shell/data-access/cats.selector';
 import * as homeAction from './home.action';
 import { ApiHomeService } from './api-home.service';
+import { selectImages } from './home.selector';
 
 @Injectable()
 export class HomeEffects {
@@ -76,6 +77,33 @@ export class HomeEffects {
       )
     )
   );
+
+  switchVote$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(homeAction.switchFavorite),
+      concatLatestFrom(() => this.store.select(selectImages)),
+      switchMap(([{ imageId }, images]) => {
+        const image = images.find((value) => value.imageId === imageId);
+        if (image?.isFavorite) {
+          return this.api
+            .removeFavorite(image.favoriteId)
+            .pipe(
+              map((_) => homeAction.setFavorite({ imageId, favoriteId: 0 }))
+            );
+        }
+
+        return this.api.setFavorite(imageId).pipe(
+          map((response: any) =>
+            homeAction.setFavorite({
+              favoriteId: +response.id,
+              imageId: imageId,
+            })
+          )
+        );
+      })
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private store: Store,

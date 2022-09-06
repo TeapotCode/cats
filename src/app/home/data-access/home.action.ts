@@ -19,6 +19,7 @@ export const setPhotos = createAction(
   }>()
 );
 
+//Like related actions
 export const likeImage = createAction(
   '[Home PAGE] Like Image',
   props<{ imageId: string }>()
@@ -35,4 +36,15 @@ export const removeVote = createAction(
 export const setImageVoteId = createAction(
   '[Home STORE] Set Image Vote',
   props<{ value: number; voteId: number; imageId: string }>()
+);
+
+//Favorite related actions
+export const switchFavorite = createAction(
+  '[Home PAGE] Toggle favourite button',
+  props<{ imageId: string }>()
+);
+
+export const setFavorite = createAction(
+  '[Home STORE] Set favourite button',
+  props<{ imageId: string; favoriteId: number }>()
 );
