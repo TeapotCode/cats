@@ -43,6 +43,7 @@ export const catsReducer = createReducer(
         imageId: value.id,
         imageUrl: value.url,
         isFavorite: !!fav,
+        favoriteId: fav ? fav.id : 0,
         vote: voted ? voted.value : 0,
         voteId: voted ? voted.id : 0,
       };
@@ -101,6 +102,30 @@ export const catsReducer = createReducer(
       ...state,
       randomImages: newImages,
     };
+  }),
+  on(catsActions.setFavoriteId, (state, { favoriteId, imageId }) => {
+    const newItems = state.randomImages.map((value) =>
+      value.imageId === imageId
+        ? { ...value, favoriteId, isFavorite: true }
+        : value
+    );
+
+    return {
+      ...state,
+      randomImages: newItems,
+    };
+  }),
+
+  on(catsActions.removeFromFavorite, (state, { imageId }) => {
+    const newItems = state.randomImages.map((value) =>
+      value.imageId === imageId
+        ? { ...value, isFavorite: false, favoriteId: 0 }
+        : value
+    );
+
+    return {
+      ...state,
+      randomImages: newItems,
+    };
   })
-  // on(catsActions.switchFavoriteImage, (state, { imageId }) => {})
 );

@@ -12,24 +12,25 @@ export class CardComponent {
   @Output() like = new EventEmitter<void>();
   @Output() dislike = new EventEmitter<void>();
   @Output() removeVote = new EventEmitter<number>();
+  @Output() favorite = new EventEmitter<number>();
 
-  liked: boolean = false;
   voteId: string = '';
 
   constructor() {}
 
   onLike() {
-    this.liked = true;
     this.like.emit();
   }
 
   onDislike() {
-    this.liked = true;
     this.dislike.emit();
   }
 
   onUndo() {
-    this.liked = false;
     this.removeVote.emit(this.image.voteId);
+  }
+
+  onFavorite() {
+    this.favorite.emit(this.image.favoriteId);
   }
 }

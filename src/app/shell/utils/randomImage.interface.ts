@@ -4,4 +4,5 @@ export interface RandomImage {
   vote: number;
   voteId: number;
   isFavorite: boolean;
+  favoriteId: number;
 }

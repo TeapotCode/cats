@@ -31,4 +31,7 @@ export class HomeComponent implements OnInit {
   trackById(index: number, image: RandomImage) {
     return image.imageId;
   }
+  favorite(imageId: string) {
+    this.store.dispatch(catsAction.switchFavoriteImage({ imageId }));
+  }
 }

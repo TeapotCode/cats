@@ -26,6 +26,16 @@ export const switchFavoriteImage = createAction(
   props<{ imageId: string }>()
 );
 
+export const removeFromFavorite = createAction(
+  '[Cats PAGE] Remove from favorite',
+  props<{ imageId: string }>()
+);
+
+export const setFavoriteId = createAction(
+  '[Cats PAGE] Set FavouriteId',
+  props<{ favoriteId: number; imageId: string }>()
+);
+
 export const loadRandomImages = createAction('[Cats API] Load Random Images');
 
 export const loadImagesWithVote = createAction(

@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import * as catsAction from './cats.action';
-import { switchMap, map } from 'rxjs';
+import { switchMap, map, tap } from 'rxjs';
 import { ApiHomeService } from './api-cats.service';
+import { Store } from '@ngrx/store';
+import { selectFavouritesImages, selectRandomImages } from './cats.selector';
+import { CardComponent } from '../../home/ui/card/card.component';
 
 @Injectable()
 export class CatsEffects {
@@ -73,5 +76,35 @@ export class CatsEffects {
     { dispatch: false }
   );
 
-  constructor(private actions$: Actions, private api: ApiHomeService) {}
+  switchVote$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(catsAction.switchFavoriteImage),
+      concatLatestFrom(() => this.store.select(selectRandomImages)),
+      switchMap(([{ imageId }, images]) => {
+        const image = images.find((value) => value.imageId === imageId);
+        if (image?.isFavorite) {
+          return this.api
+            .removeFavorite(image.favoriteId)
+            .pipe(
+              map((_) => catsAction.removeFromFavorite({ imageId: imageId }))
+            );
+        }
+
+        return this.api.setFavorite(imageId).pipe(
+          map((response: any) =>
+            catsAction.setFavoriteId({
+              favoriteId: +response.id,
+              imageId: imageId,
+            })
+          )
+        );
+      })
+    )
+  );
+
+  constructor(
+    private actions$: Actions,
+    private api: ApiHomeService,
+    private store: Store
+  ) {}
 }
