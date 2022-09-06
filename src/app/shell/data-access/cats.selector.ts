@@ -22,3 +22,8 @@ export const selectOnlyNegativeImage = createSelector(
   selectFeature,
   (state: CatsState) => state.voteImages.filter((result) => result.value === -1)
 );
+
+export const selectAll = createSelector(
+  selectFeature,
+  (state: CatsState) => state
+);

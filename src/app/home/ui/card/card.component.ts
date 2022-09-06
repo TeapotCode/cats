@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Image } from '../../utils/image.interface';
-import { RandomImage } from '../../../shell/utils/randomImage.interface';
+import { RandomImage } from '../../utils/randomImage.interface';
 
 @Component({
   selector: 'app-card',
@@ -13,8 +13,6 @@ export class CardComponent {
   @Output() dislike = new EventEmitter<void>();
   @Output() removeVote = new EventEmitter<number>();
   @Output() favorite = new EventEmitter<number>();
-
-  voteId: string = '';
 
   constructor() {}
 
