@@ -4,16 +4,22 @@ import { CommonModule } from '@angular/common';
 
 import { FavoritesRoutingModule } from './favorites-routing.module';
 import { FavoritesComponent } from './favorites/favorites.component';
-import { ApiFavoritesService } from './api-service/api-favorites.service';
+import { FavoritesStore } from '../data-access/api-service/favorites.store';
+import { TableComponent } from '../ui/table/table.component';
+
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 
 @NgModule({
   declarations: [
-    FavoritesComponent
+    FavoritesComponent,
+    TableComponent
   ],
   imports: [
     CommonModule,
     FavoritesRoutingModule,
+    MatPaginatorModule
   ],
-  providers:[ApiFavoritesService]
+  providers:[FavoritesStore]
 })
 export class FavoritesModule { }

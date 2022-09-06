@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiFavoritesService } from '../api-service/api-favorites.service';
-import { Favorites } from '../utils/favorites';
+import { FavoritesStore } from '../../data-access/api-service/favorites.store';
+import { Favorites } from '../../utils/favorites';
 
 @Component({
   selector: 'app-favorites',
@@ -9,16 +9,15 @@ import { Favorites } from '../utils/favorites';
 })
 export class FavoritesComponent implements OnInit {
 
-  constructor(private api:ApiFavoritesService) { }
+  constructor(private store: FavoritesStore) { }
 
-  favorites:Favorites[]=[]
+  favorites$=this.store.favorites$
+  images:Favorites[]=[]
+
 
   ngOnInit(): void {
-  }
-
-  test()
-  {
-    this.api.getFavorites().pipe().subscribe(x=>{this.favorites=x;console.log(this.favorites)})
+    this.store.getFavorites({})
+    this.favorites$.pipe().subscribe(x=>{this.images=x;console.log(this.images)})
   }
 
 }

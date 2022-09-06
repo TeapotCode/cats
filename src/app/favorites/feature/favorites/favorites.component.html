@@ -1,1 +1,3 @@
-<button (click)="test()">test</button>
+<div *ngFor="let image of favorites$ |async">
+    <img [src]="image.image.url">
+</div>
