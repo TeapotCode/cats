@@ -5,17 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
+import { ShellModule } from './shell/feature/shell.module';
 import { ApiInterceptor } from './shell/utils/api.interceptor';
-
-const routes: Routes = [
-  {
-    path: '',
-    loadChildren: () =>
-      import('./shell/feature/shell.module').then((m) => m.ShellModule),
-  },
-];
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,8 +15,7 @@ const routes: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes),
-    HttpClientModule,
+    ShellModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
