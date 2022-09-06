@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Store} from "@ngrx/store";
 import {UploadService} from '../../data/access/upload.service';
 
 @Component({
@@ -16,6 +17,7 @@ export class UploadComponent {
     this.loading = true;
     this.uploadService.upload(file).subscribe(
       result => {
+        console.log('Success!')
       },
       error => {
         this.error = error;
@@ -24,6 +26,17 @@ export class UploadComponent {
       },
       () => {
         this.loading = false;
+        console.log('Finished upload')
+        this.uploadService.getUploadedImages().subscribe(
+          result => {
+          },
+          error => {
+
+          },
+          () => {
+
+          }
+        )
       }
     );
   }
@@ -45,5 +58,5 @@ export class UploadComponent {
     this.upload(this.file);
   }
 
-  constructor(private uploadService: UploadService) { }
+  constructor(private uploadService: UploadService, private store: Store) { }
 }

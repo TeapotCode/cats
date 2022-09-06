@@ -12,12 +12,12 @@ export const uploadInitialState: UploadState = {
 
 export const uploadReducer = createReducer(
   uploadInitialState,
-  on(uploadActions.addUploads, (state: UploadState, { images }) => ({
+  on(uploadActions.uploadImage, (state: UploadState, { image }) => ({
     ...state,
-    products: [...state.images, ...images]
+    images: [...state.images, image]
   })),
-  on(uploadActions.deleteUploadedImage, (state: UploadState, { image }) => ({
+  on(uploadActions.deleteImage, (state: UploadState, { image }) => ({
     ...state,
-    products: [...state.images.filter(img => img !== image)]
+    images: [...state.images.filter(img => img.id !== image.id)]
   })),
 )
