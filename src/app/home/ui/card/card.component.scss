@@ -8,9 +8,36 @@
   justify-items: center;
 }
 
+.heart {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background-color: gray;
+  color: black;
+}
+
+.isFavorite {
+  border-radius: 999px;
+
+  background-color: red;
+  color: white;
+}
+
+.fav {
+  display: flex;
+  padding: 8px;
+}
+
+.relative {
+  position: relative;
+  grid-column: span 2;
+}
+
 img {
   width: 24rem;
-  grid-column: span 2;
   border: solid var(--color, rgb(191, 191, 191)) 0.5rem;
 }
 

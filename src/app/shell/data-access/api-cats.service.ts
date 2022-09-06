@@ -32,4 +32,22 @@ export class ApiHomeService {
       value,
     });
   }
+
+  removeVote(voteId: number) {
+    return this.httpClient.delete(
+      `https://api.thecatapi.com/v1/votes/${voteId}`
+    );
+  }
+
+  setFavorite(imageId: string) {
+    return this.httpClient.post('https://api.thecatapi.com/v1/favourites', {
+      image_id: imageId,
+    });
+  }
+
+  removeFavorite(favoriteId: number) {
+    return this.httpClient.delete(
+      `https://api.thecatapi.com/v1/favourites/${favoriteId}`
+    );
+  }
 }
