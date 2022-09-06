@@ -1,4 +1,4 @@
-<!-- <mat-list *ngIf="images$ | async; else empty">
+<mat-list *ngIf="images$ | async; else empty">
   <div mat-subheader>Positive</div>
 
   <app-display-votes
@@ -19,6 +19,6 @@
     (like)="onLike($event)"
     (delete)="onDeleteVote($event)"
   ></app-display-votes>
-</mat-list> -->
+</mat-list>
 
 <ng-template #empty>Pusto</ng-template>

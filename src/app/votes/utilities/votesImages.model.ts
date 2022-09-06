@@ -3,11 +3,10 @@ export interface voteImages {
   image_id: string;
   created_at: string;
   value: number;
-  country_code: string;
   image: {
     id: string;
     url: string;
   };
-  favorite?: boolean;
-  fav_id?: number;
+  isFavorite?: boolean;
+  favoriteId?: number;
 }
