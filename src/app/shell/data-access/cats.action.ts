@@ -1,14 +1,29 @@
 import { createAction, props } from '@ngrx/store';
 import { Api } from '../utils/api.interfaces';
 
-export const likeImageMain = createAction('[Cats PAGE] Like Image');
+export const likeImage = createAction(
+  '[Cats PAGE] Like Image',
+  props<{ imageId: string }>()
+);
 
-export const dislikeImageMain = createAction('[Cats PAGE] Dislike Image');
+export const setVoteId = createAction(
+  '[Cats PAGE] Set VoteID',
+  props<{ voteId: number; imageId: string }>()
+);
 
-export const removeVoteMain = createAction('[Cats PAGE] Add Favorite Image');
+export const dislikeImage = createAction(
+  '[Cats PAGE] Dislike Image',
+  props<{ imageId: string }>()
+);
 
-export const switchFavoriteImageMain = createAction(
-  '[Cats PAGE] Switch Favorite Image'
+export const removeVote = createAction(
+  '[Cats PAGE] Remove Vote From Image',
+  props<{ voteId: number }>()
+);
+
+export const switchFavoriteImage = createAction(
+  '[Cats PAGE] Switch Favorite Image',
+  props<{ imageId: string }>()
 );
 
 export const loadRandomImages = createAction('[Cats API] Load Random Images');

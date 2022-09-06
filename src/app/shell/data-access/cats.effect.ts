@@ -30,5 +30,48 @@ export class CatsEffects {
     )
   );
 
+  likeImage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(catsAction.likeImage),
+      switchMap(({ imageId }) =>
+        this.api
+          .sendVote(1, imageId)
+          .pipe(map((response) => ({ ...response, imageId })))
+      ),
+      map((response: any) =>
+        catsAction.setVoteId({
+          voteId: response.id,
+          imageId: response.imageId,
+        })
+      )
+    )
+  );
+
+  dislikeImage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(catsAction.dislikeImage),
+      switchMap(({ imageId }) =>
+        this.api
+          .sendVote(-1, imageId)
+          .pipe(map((response) => ({ ...response, imageId })))
+      ),
+      map((response: any) =>
+        catsAction.setVoteId({
+          voteId: response.id,
+          imageId: response.imageId,
+        })
+      )
+    )
+  );
+
+  removeVote$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(catsAction.removeVote),
+        switchMap(({ voteId }) => this.api.removeVote(voteId))
+      ),
+    { dispatch: false }
+  );
+
   constructor(private actions$: Actions, private api: ApiHomeService) {}
 }

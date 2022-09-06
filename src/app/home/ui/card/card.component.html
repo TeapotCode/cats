@@ -1,4 +1,8 @@
-<img [src]="image.url" />
+<img
+  [src]="image.imageUrl"
+  [ngClass]="{ red: image.vote < 0, green: image.vote > 0 }"
+/>
+
 <ng-container *ngIf="!liked; else likedTemp">
   <mat-icon class="up" (click)="onLike()">thumb_up</mat-icon
   ><mat-icon class="down" (click)="onDislike()">thumb_down</mat-icon>

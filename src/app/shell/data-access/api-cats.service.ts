@@ -32,4 +32,10 @@ export class ApiHomeService {
       value,
     });
   }
+
+  removeVote(voteId: number) {
+    return this.httpClient.delete(
+      `https://api.thecatapi.com/v1/votes/${voteId}`
+    );
+  }
 }
