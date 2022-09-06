@@ -26,5 +26,10 @@ export class UploadService {
     return this.httpClient.get<Image[]>(`${this.SERVER_URL}/?limit=20`, this.options);
   }
 
+  public deleteImage(image: Image) {
+    console.log(image.id);
+    return this.httpClient.delete(`${this.SERVER_URL}/${image.id}`, this.options)
+  }
+
   constructor(private httpClient: HttpClient) { }
 }

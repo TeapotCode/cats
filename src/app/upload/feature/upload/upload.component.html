@@ -1,16 +1,19 @@
 <div class="dropzone" appDragAndDrop (fileDropped)="onFileDropped($event)">
-  <input type="file" #fileDropRef id="fileDropRef" multiple (change)="fileBrowserHandler($event)"/>
+  <input type="file" #fileDropRef id="fileDropRef" multiple (change)="onfileInputChange($event)"/>
   <mat-icon class="icon">upload</mat-icon>
   <h3>Drag and drop files here</h3>
   <h3>or</h3>
   <label for="fileDropRef"><button mat-raised-button color="warn">Browse for file</button></label>
 </div>
 
-
-
-<div>
-  <mat-spinner *ngIf="loading"></mat-spinner>
-  <button mat-icon-button color="warn">
-    <mat-icon>delete</mat-icon>
-  </button>
-</div>
+<mat-list *ngIf="(images$ | async) as images; else loading">
+  <mat-list-item *ngFor="let image of images">
+    <img [src]="image.url" alt="cat image">
+    <button mat-icon-button color="warn" (click)="onDelete(image)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-list-item>
+</mat-list>
+<ng-template #loading>
+  <mat-spinner></mat-spinner>
+</ng-template>

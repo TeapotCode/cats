@@ -1,62 +1,83 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
+import {Observable, Subscription, take} from "rxjs";
+import {addImagesToState, deleteImage, fillStateWithImages} from "../../data/access/state/upload.actions";
+import {getAllImages} from "../../data/access/state/upload.selectors";
 import {UploadService} from '../../data/access/upload.service';
+import {Image} from "../../utilities/ImagesInterface";
 
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss']
 })
-export class UploadComponent {
-  loading: boolean = false; // Flag variable
+export class UploadComponent implements OnInit, OnDestroy {
+  images$!: Observable<Image[]>
   progress!: number;
   file!: File;
   error!: Error;
+  private imagesSubscription!: Subscription;
+  isLoading!: boolean;
 
-  upload(file: File) {
-    this.loading = true;
+  uploadHelper(file: File) {
+    console.table(file);
+    this.isLoading = true;
     this.uploadService.upload(file).subscribe(
       result => {
-        console.log('Success!')
+
       },
       error => {
         this.error = error;
-        this.loading = false;
+        this.isLoading = false;
         console.log(this.error);
       },
       () => {
-        this.loading = false;
-        console.log('Finished upload')
-        this.uploadService.getUploadedImages().subscribe(
-          result => {
-          },
-          error => {
-
-          },
-          () => {
-
-          }
-        )
+        this.isLoading = false;
       }
     );
   }
 
   onFileDropped(event: any) {
-    console.log(`Event: ${event}`)
-    console.table(event);
     for (let file of event) {
-      this.uploadFile(file);
+      this.uploadHelper(file);
     }
   }
 
-  fileBrowserHandler(event: any) {
-   this.uploadFile(event.target.files[0]);
+  onfileInputChange(event: any) {
+   this.uploadHelper(event.target.files[0]);
   }
 
-  uploadFile(file: File) {
-    this.file = file;
-    this.upload(this.file);
+  onDelete(image: Image) {
+    //this.store.dispatch(deleteImage({image: image}));
+    this.uploadService.deleteImage(image).subscribe(result => {
+      this.syncStateWIthAPI();
+    })
   }
 
-  constructor(private uploadService: UploadService, private store: Store) { }
+  constructor(private uploadService: UploadService, private store: Store, ) { }
+
+  ngOnInit() {
+    this.syncStateWIthAPI();
+    this.images$ = this.store.select(getAllImages);
+  }
+
+  syncStateWIthAPI() {
+    this.uploadService.getUploadedImages().pipe(
+      take(1)
+    ).subscribe(
+      result => {
+        this.store.dispatch(fillStateWithImages({images: result}))
+      },
+      error => {
+
+      },
+      () => {
+
+      }
+    )
+  }
+
+  ngOnDestroy() {
+
+  }
 }
