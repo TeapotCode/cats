@@ -6,17 +6,24 @@ import {UploadService} from '../../data/access/upload.service';
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss']
 })
-export class UploadComponent implements OnInit {
+export class UploadComponent {
   loading: boolean = false; // Flag variable
   progress!: number;
+  file!: File;
+  error!: Error;
 
   upload(file: File) {
-    this.loading = !this.loading;
+    this.loading = true;
     this.uploadService.upload(file).subscribe(
-      (event: any) => {
-        if (typeof (event) === 'object') {
-          this.loading = false;
-        }
+      result => {
+      },
+      error => {
+        this.error = error;
+        this.loading = false;
+        console.log(this.error);
+      },
+      () => {
+        this.loading = false;
       }
     );
   }
@@ -25,16 +32,18 @@ export class UploadComponent implements OnInit {
     console.log(`Event: ${event}`)
     console.table(event);
     for (let file of event) {
-      this.upload(file);
+      this.uploadFile(file);
     }
   }
 
-  constructor(private uploadService: UploadService) { }
-
-  ngOnInit(): void {
-  }
-
   fileBrowserHandler(event: any) {
-    this.upload(event.target.files[0]);
+   this.uploadFile(event.target.files[0]);
   }
+
+  uploadFile(file: File) {
+    this.file = file;
+    this.upload(this.file);
+  }
+
+  constructor(private uploadService: UploadService) { }
 }
