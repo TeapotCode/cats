@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { VotesRoutingModule } from './votes-routing.module';
 import { VotesComponent } from './votes/votes.component';
@@ -16,6 +18,12 @@ import { CardComponent } from '../ui/card/card.component';
     NegativeVotesComponent,
     CardComponent,
   ],
-  imports: [CommonModule, VotesRoutingModule, MatListModule],
+  imports: [
+    CommonModule,
+    VotesRoutingModule,
+    MatListModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
 export class VotesModule {}
