@@ -9,6 +9,10 @@ import { voteImages } from '../utilities/votesImages.model';
 export interface VotesState {
   image: voteImages[];
 }
+interface helperIfLike {
+  id: string;
+  result: any; //{message, id}
+}
 
 @Injectable()
 export class VotesStore extends ComponentStore<VotesState> {
@@ -22,19 +26,23 @@ export class VotesStore extends ComponentStore<VotesState> {
   }));
 
   protected updateImagesIfDislike = this.updater((state, id: number) => {
-    const newImage = state.image.map((img) =>
+    const newImage: voteImages[] = state.image.map((img) =>
       img.favoriteId === id ? { ...img, isFavorite: false } : img
     );
+
     return {
       ...state,
       image: newImage,
     };
   });
 
-  protected updateImagesIfLike = this.updater((state, id: string) => {
-    const newImage = state.image.map((img) =>
-      img.image_id === id ? { ...img, isFavorite: true } : img
+  protected updateImagesIfLike = this.updater((state, id: helperIfLike) => {
+    const newImage: voteImages[] = state.image.map((img) =>
+      img.image_id === id.id
+        ? { ...img, isFavorite: true, favoriteId: id.result.id }
+        : img
     );
+
     return {
       ...state,
       image: newImage,
@@ -92,7 +100,7 @@ export class VotesStore extends ComponentStore<VotesState> {
       switchMap((id) =>
         this.apiCats.setFavorite(id).pipe(
           tap({
-            next: (result) => this.updateImagesIfLike(id),
+            next: (result) => this.updateImagesIfLike({ id, result }),
             error: (e) => console.log(e),
           })
         )
