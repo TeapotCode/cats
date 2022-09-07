@@ -10,15 +10,29 @@ import { StoreModule } from '@ngrx/store';
 import { homeReducerKey, homeReducer } from '../data-access/home.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { HomeEffects } from '../data-access/home.effect';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [HomeComponent, FiltersComponent, CardComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
-    MatIconModule,
     StoreModule.forFeature(homeReducerKey, homeReducer),
     EffectsModule.forFeature([HomeEffects]),
+    ScrollingModule,
+    MatToolbarModule,
+    MatListModule,
+    MatDividerModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class HomeModule {}

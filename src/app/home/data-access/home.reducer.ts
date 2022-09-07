@@ -37,7 +37,7 @@ export const homeReducer = createReducer(
 
     return {
       ...state,
-      images,
+      images: [...state.images, ...images],
     };
   }),
 
