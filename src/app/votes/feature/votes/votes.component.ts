@@ -13,6 +13,7 @@ import { voteImages } from '../../utilities/votesImages.model';
 export class VotesComponent implements OnInit {
   positiveImages$: Observable<voteImages[]> = this.store.selectImagesPositive();
   negativeImages$: Observable<voteImages[]> = this.store.selectImagesNegative();
+  images$: Observable<voteImages[]> = this.store.selectImages();
   loader$: Observable<boolean> = this.store.selectLoader();
 
   constructor(private store: VotesStore) {}

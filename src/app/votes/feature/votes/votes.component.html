@@ -1,26 +1,35 @@
-<mat-list *ngIf="loader$ | async as test; else empty">
-  <div mat-subheader>Positive</div>
+<ng-container *ngIf="loader$ | async as test; else empty">
+  <ng-container *ngIf="images$ | async as images">
+    <h1 *ngIf="!images.length" class="information">
+      Go to home to votes on images
+    </h1>
+  </ng-container>
+  <mat-list>
+    <ng-container *ngIf="positiveImages$ | async as positiveImages">
+      <div mat-subheader *ngIf="positiveImages.length">Positive</div>
 
-  <app-display-votes
-    *ngIf="positiveImages$ | async as positiveImages"
-    [images]="positiveImages"
-    (dislike)="onDislike($event)"
-    (like)="onLike($event)"
-    (delete)="onDeleteVote($event)"
-  ></app-display-votes>
+      <app-display-votes
+        [images]="positiveImages"
+        (dislike)="onDislike($event)"
+        (like)="onLike($event)"
+        (delete)="onDeleteVote($event)"
+      ></app-display-votes>
 
-  <mat-divider></mat-divider>
+      <mat-divider *ngIf="positiveImages.length"></mat-divider>
+    </ng-container>
 
-  <div mat-subheader>Negative</div>
+    <ng-container *ngIf="negativeImages$ | async as negativeImages">
+      <div mat-subheader *ngIf="negativeImages.length">Negative</div>
 
-  <app-display-votes
-    *ngIf="negativeImages$ | async as negativeImages"
-    [images]="negativeImages"
-    (dislike)="onDislike($event)"
-    (like)="onLike($event)"
-    (delete)="onDeleteVote($event)"
-  ></app-display-votes>
-</mat-list>
+      <app-display-votes
+        [images]="negativeImages"
+        (dislike)="onDislike($event)"
+        (like)="onLike($event)"
+        (delete)="onDeleteVote($event)"
+      ></app-display-votes>
+    </ng-container>
+  </mat-list>
+</ng-container>
 
 <ng-template #empty>
   <div class="loader">

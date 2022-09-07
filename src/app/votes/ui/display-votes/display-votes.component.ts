@@ -1,7 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { ApiVotesService } from '../../data-access/services/api-votes.service';
-
 import { voteImages } from '../../utilities/votesImages.model';
 
 @Component({
@@ -15,7 +13,7 @@ export class DisplayVotesComponent {
   @Output() like = new EventEmitter<string>();
   @Output() delete = new EventEmitter<number>();
 
-  constructor(private service: ApiVotesService) {}
+  constructor() {}
 
   onDislike(fav_id: number) {
     this.dislike.emit(fav_id);
