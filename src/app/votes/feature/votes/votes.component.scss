@@ -2,3 +2,17 @@
   max-width: 768px;
   margin: 0 auto;
 }
+
+.loader,
+.information {
+  width: 100vw;
+  height: calc(100vh - 100px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.information {
+  color: #3f51b5;
+  font-weight: 500;
+}
