@@ -1,0 +1,27 @@
+<mat-list-item *ngFor="let image of images">
+  <img
+    matListAvatar
+    src="{{ image.image.url }}"
+    alt="{{ image.image.id }}"
+    (click)="onDelete(image.id)"
+  />
+
+  <div mat-line>{{ image.image_id }}</div>
+  <div mat-line>
+    {{ image.created_at | customDate }}
+  </div>
+
+  <mat-action-list>
+    <button
+      mat-icon-button
+      color="warn"
+      [color]="image.isFavorite ? 'warn' : 'black'"
+      (click)="
+        image.isFavorite ? onDislike(image.favoriteId!) : onLike(image.image_id)
+      "
+      aria-label="Example icon button with a heart icon"
+    >
+      <mat-icon>favorite</mat-icon>
+    </button>
+  </mat-action-list>
+</mat-list-item>

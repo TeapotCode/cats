@@ -11,8 +11,6 @@ export class ShellComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(catsAction.loadFavouritesImages());
-    this.store.dispatch(catsAction.loadImagesWithVote());
-    this.store.dispatch(catsAction.loadRandomImages());
+    this.store.dispatch(catsAction.loadFromApi());
   }
 }

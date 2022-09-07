@@ -1,11 +1,5 @@
 <app-filters></app-filters>
 
 <ng-container *ngFor="let image of images$ | async; trackBy: trackById">
-  <app-card
-    [image]="image"
-    (like)="like(image.imageId)"
-    (dislike)="dislike(image.imageId)"
-    (removeVote)="undo($event)"
-    (favorite)="favorite(image.imageId)"
-  ></app-card>
+  <app-card [image]="image"></app-card>
 </ng-container>

@@ -8,12 +8,22 @@ export const selectFavouritesImages = createSelector(
   (state: CatsState) => state.favoriteImages
 );
 
-export const selectRandomImages = createSelector(
-  selectFeature,
-  (state: CatsState) => state.randomImages
-);
-
 export const selectVotedImages = createSelector(
   selectFeature,
   (state: CatsState) => state.voteImages
+);
+
+export const selectOnlyPositivieImage = createSelector(
+  selectFeature,
+  (state: CatsState) => state.voteImages.filter((result) => result.value === 1)
+);
+
+export const selectOnlyNegativeImage = createSelector(
+  selectFeature,
+  (state: CatsState) => state.voteImages.filter((result) => result.value === -1)
+);
+
+export const selectAll = createSelector(
+  selectFeature,
+  (state: CatsState) => state
 );
