@@ -8,8 +8,8 @@
   margin: 0 auto;
 }
 
-mat-progress-bar {
-  margin-top: 20px;
+.progress {
+ height: 20px;
 }
 
 input {
@@ -50,12 +50,15 @@ mat-list-item.img-list-item {
 
 mat-list {
   margin: 0 auto;
-  padding-top: 50px;
 }
 
 h2 {
   text-align: center;
   margin: 20px 0;
+}
+
+mat-progress-bar {
+  margin-top: 20px;
 }
 
 

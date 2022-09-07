@@ -8,7 +8,9 @@
 </div>
 <h2>Last 20 uploaded images</h2>
 <div class="list" *ngIf="(images$ | async) as images; else loading" >
-  <mat-progress-bar mode="indeterminate" *ngIf="isDeleting"></mat-progress-bar>
+  <div class="progress">
+    <mat-progress-bar mode="indeterminate" *ngIf="isDeleting"></mat-progress-bar>
+  </div>
   <mat-list class="img-list">
     <mat-list-item *ngFor="let image of images" class="img-list-item">
       <img [src]="image.url" alt="cat image">

@@ -5,6 +5,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatListModule} from "@angular/material/list";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {StoreModule} from "@ngrx/store";
 import {uploadInitialState, uploadReducer} from "../data/access/state/upload.reducer";
 import {DragAndDropDirective} from "../utilities/drag-and-drop.directive";
@@ -28,6 +29,7 @@ import {UploadComponent} from './upload/upload.component';
     MatListModule,
     StoreModule.forFeature('uploads', uploadReducer),
     MatProgressBarModule,
+    MatSnackBarModule
   ],
   providers: [],
   exports: [

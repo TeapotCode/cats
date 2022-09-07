@@ -1,4 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from "@ngrx/store";
 import {Observable, Subscription, take} from "rxjs";
 import {addImagesToState, deleteImage, fillStateWithImages} from "../../data/access/state/upload.actions";
@@ -15,8 +16,6 @@ export class UploadComponent implements OnInit, OnDestroy {
   images$!: Observable<Image[]>
   progress!: number;
   file!: File;
-  error!: Error;
-  private imagesSubscription!: Subscription;
   isLoading!: boolean;
   isDeleting!: boolean;
 
@@ -28,12 +27,10 @@ export class UploadComponent implements OnInit, OnDestroy {
 
       },
       error => {
-        this.error = error;
-        this.isLoading = false;
-        console.log(this.error);
+        this.snackBar.open("Can't upload image.")
+        this.resetFlags()
       },
       () => {
-
         this.syncStateWIthAPI();
       }
     );
@@ -55,7 +52,8 @@ export class UploadComponent implements OnInit, OnDestroy {
       this.syncStateWIthAPI();
 
     }, error => {
-
+        this.snackBar.open("Can't delete image.")
+        this.resetFlags()
       },
       () => {
 
@@ -63,7 +61,7 @@ export class UploadComponent implements OnInit, OnDestroy {
     )
   }
 
-  constructor(private uploadService: UploadService, private store: Store, ) { }
+  constructor(private uploadService: UploadService, private store: Store, private snackBar: MatSnackBar ) { }
 
   ngOnInit() {
     this.syncStateWIthAPI();
@@ -78,13 +76,18 @@ export class UploadComponent implements OnInit, OnDestroy {
         this.store.dispatch(fillStateWithImages({images: result}))
       },
       error => {
-
+        this.snackBar.open("Can't display data.")
+        this.resetFlags();
       },
       () => {
-        this.isDeleting = false;
-        this.isLoading = false;
+        this.resetFlags();
       }
     )
+  }
+
+  resetFlags() {
+    this.isDeleting = false;
+    this.isLoading = false;
   }
 
   ngOnDestroy() {
