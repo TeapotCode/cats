@@ -1,18 +1,22 @@
 <app-filters></app-filters>
 
-<cdk-virtual-scroll-viewport class="content" #scroller itemSize="400">
-  <ng-container
-    *cdkVirtualFor="
-      let image of images$ | async;
-      trackBy: trackById;
-      templateCacheSize: 50
-    "
-  >
-    <app-card [image]="image"></app-card>
-  </ng-container>
+<ng-container *ngIf="images$ | async as images">
+  <cdk-virtual-scroll-viewport class="content" #scroller itemSize="400">
+    <ng-container
+      *cdkVirtualFor="
+        let image of images;
+        trackBy: trackById;
+        templateCacheSize: 50
+      "
+    >
+      <app-card [image]="image"></app-card>
+    </ng-container>
 
-  <div class="spinner-item">
-    <mat-progress-spinner [mode]="'indeterminate'" [diameter]="50">
-    </mat-progress-spinner>
-  </div>
-</cdk-virtual-scroll-viewport>
+    <div class="spinner-item">
+      <mat-progress-spinner [mode]="'indeterminate'" [diameter]="50">
+      </mat-progress-spinner>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</ng-container>
+
+<ng-template #noImages>There is no images found!</ng-template>
