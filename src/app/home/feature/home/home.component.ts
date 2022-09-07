@@ -9,7 +9,11 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { filter, map, pairwise, throttleTime } from 'rxjs';
-import { loadPhotos } from '../../data-access/home.action';
+import {
+  loadPhotos,
+  loadCategories,
+  loadBreeds,
+} from '../../data-access/home.action';
 import { selectImages } from '../../data-access/home.selector';
 import { RandomImage } from '../../utils/randomImage.interface';
 @Component({
@@ -42,6 +46,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadPhotos());
+    this.store.dispatch(loadCategories());
+    this.store.dispatch(loadBreeds());
   }
 
   trackById(index: number, image: RandomImage) {

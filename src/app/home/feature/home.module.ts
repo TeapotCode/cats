@@ -17,6 +17,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [HomeComponent, FiltersComponent, CardComponent],
@@ -27,12 +28,8 @@ import { MatMenuModule } from '@angular/material/menu';
     EffectsModule.forFeature([HomeEffects]),
     NgOptimizedImage,
     ScrollingModule,
-    MatToolbarModule,
-    MatListModule,
-    MatDividerModule,
-    MatButtonModule,
+    MatSelectModule,
     MatIconModule,
-    MatMenuModule,
     MatProgressSpinnerModule,
   ],
 })

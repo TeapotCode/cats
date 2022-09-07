@@ -1,13 +1,23 @@
 import { createReducer, on } from '@ngrx/store';
+import { Category } from '../utils/category.interface';
 import { RandomImage } from '../utils/randomImage.interface';
 import * as homeActions from './home.action';
 
 export interface HomeState {
   images: RandomImage[];
+  categorySelected: number | null;
+  categories: Category[];
+
+  breedSelected: number | null;
+  breeds: Category[];
 }
 
 const initialState: HomeState = {
   images: [],
+  categorySelected: null,
+  categories: [],
+  breedSelected: null,
+  breeds: [],
 };
 
 export const homeReducerKey = 'home';
@@ -62,6 +72,30 @@ export const homeReducer = createReducer(
     return {
       ...state,
       images,
+    };
+  }),
+
+  on(homeActions.setCategories, (state, { categories }) => ({
+    ...state,
+    categories,
+  })),
+  on(homeActions.setBreeds, (state, { breeds }) => ({
+    ...state,
+    breeds,
+  })),
+
+  on(homeActions.resetRandomImages, (state) => ({ ...state, images: [] })),
+
+  on(homeActions.switchCategory, (state, { categoryId }) => {
+    return {
+      ...state,
+      categorySelected: categoryId,
+    };
+  }),
+  on(homeActions.switchBreed, (state, { breedId }) => {
+    return {
+      ...state,
+      breedSelected: breedId,
     };
   })
 );

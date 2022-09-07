@@ -1,20 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { map, switchMap } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs';
 import { selectAll } from '../../shell/data-access/cats.selector';
 import * as homeAction from './home.action';
 import { ApiHomeService } from './api-home.service';
-import { selectImages } from './home.selector';
+import {
+  selectImages,
+  selectCategoriesSelected,
+  selectBreedSelected,
+} from './home.selector';
+import { switchCategory } from './home.action';
 
 @Injectable()
 export class HomeEffects {
   setPhotos$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(homeAction.loadPhotos),
-      concatLatestFrom(() => this.store.select(selectAll)),
-      switchMap(([action, state]) =>
-        this.api.getImages(10).pipe(
+      ofType(
+        homeAction.loadPhotos,
+        homeAction.switchCategory,
+        homeAction.switchBreed
+      ),
+      concatLatestFrom(() => [
+        this.store.select(selectAll),
+        this.store.select(selectCategoriesSelected),
+        this.store.select(selectBreedSelected),
+      ]),
+      switchMap(([_action, state, category, breed]) =>
+        this.api.getImages(10, category, breed).pipe(
           map((response) =>
             homeAction.setPhotos({
               newImages: response,
@@ -101,6 +114,29 @@ export class HomeEffects {
           )
         );
       })
+    )
+  );
+
+  loadCategories$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(homeAction.loadCategories),
+      switchMap(() => this.api.getCategories()),
+      map((categories) => homeAction.setCategories({ categories }))
+    )
+  );
+
+  loadBreeds$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(homeAction.loadBreeds),
+      switchMap(() => this.api.getBreeds()),
+      map((breeds) => homeAction.setBreeds({ breeds }))
+    )
+  );
+
+  switchCategory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(homeAction.switchCategory, homeAction.switchBreed),
+      map(() => homeAction.resetRandomImages())
     )
   );
 
