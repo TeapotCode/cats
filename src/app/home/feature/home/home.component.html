@@ -2,7 +2,11 @@
 
 <cdk-virtual-scroll-viewport class="content" #scroller itemSize="400">
   <ng-container
-    *cdkVirtualFor="let image of images$ | async; trackBy: trackById"
+    *cdkVirtualFor="
+      let image of images$ | async;
+      trackBy: trackById;
+      templateCacheSize: 50
+    "
   >
     <app-card [image]="image"></app-card>
   </ng-container>
