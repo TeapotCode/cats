@@ -8,6 +8,7 @@ import { voteImages } from '../utilities/votesImages.model';
 
 export interface VotesState {
   image: voteImages[];
+  loader: boolean;
 }
 interface helperIfLike {
   id: string;
@@ -17,12 +18,18 @@ interface helperIfLike {
 @Injectable()
 export class VotesStore extends ComponentStore<VotesState> {
   constructor(private api: ApiVotesService, private apiCats: ApiHomeService) {
-    super({ image: [] });
+    super({ image: [], loader: false });
   }
 
   //reducers
   protected updateImages = this.updater((state, image: voteImages[]) => ({
+    ...state,
     image,
+  }));
+
+  protected updateLoader = this.updater((state) => ({
+    ...state,
+    loader: !state.loader,
   }));
 
   protected updateImagesIfDislike = this.updater((state, id: number) => {
@@ -68,13 +75,21 @@ export class VotesStore extends ComponentStore<VotesState> {
     );
   }
 
+  selectLoader(): Observable<boolean> {
+    return this.select((state) => state.loader);
+  }
+
   //effects
   readonly getImages = this.effect((params$: Observable<unknown>) => {
     return params$.pipe(
+      tap(() => this.updateLoader()),
       switchMap((_) =>
         this.api.getVotedImages().pipe(
           tap({
-            next: (result) => this.updateImages(result),
+            next: (result) => {
+              this.updateImages(result);
+              this.updateLoader();
+            },
             error: (e) => console.log(e),
           })
         )

@@ -21,26 +21,4 @@ export class ApiVotesService {
     this.store.dispatch(loadFromApi());
     return this.store.select(catsSelectors.selectVotedImages);
   }
-
-  selectOnlyPositivieImage(): Observable<voteImages[]> {
-    return this.store.select(catsSelectors.selectOnlyPositivieImage);
-  }
-
-  selectOnlyNegativeImage(): Observable<voteImages[]> {
-    return this.store.select(catsSelectors.selectOnlyNegativeImage);
-  }
-
-  dislikeImage(fav_id: number) {
-    return this.http.delete(
-      `https://api.thecatapi.com/v1/favourites/${fav_id}`
-    );
-  }
-
-  likeImage(image_id: string) {
-    console.log(image_id);
-  }
-
-  deleteImageFromVote(vote_id: number) {
-    console.log(vote_id);
-  }
 }

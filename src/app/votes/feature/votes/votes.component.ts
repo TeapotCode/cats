@@ -13,7 +13,7 @@ import { voteImages } from '../../utilities/votesImages.model';
 export class VotesComponent implements OnInit {
   positiveImages$ = this.store.selectImagesPositive();
   negativeImages$ = this.store.selectImagesNegative();
-  images$ = this.votes.getVotedImages();
+  loader$ = this.store.selectLoader();
 
   constructor(private votes: ApiVotesService, private store: VotesStore) {}
 
