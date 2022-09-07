@@ -1,18 +1,18 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Image } from '../../utils/image.interface';
-import { RandomImage } from '../../utils/randomImage.interface';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { switchFavorite } from '../../data-access/home.action';
 import {
-  likeImage,
   dislikeImage,
+  likeImage,
   removeVote,
+  switchFavorite,
 } from '../../data-access/home.action';
+import { RandomImage } from '../../utils/randomImage.interface';
 
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardComponent {
   @Input() image!: RandomImage;

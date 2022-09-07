@@ -8,10 +8,10 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { filter, map, pairwise, throttleTime } from 'rxjs';
 import { loadPhotos } from '../../data-access/home.action';
 import { selectImages } from '../../data-access/home.selector';
 import { RandomImage } from '../../utils/randomImage.interface';
-import { filter, map, pairwise, throttleTime } from 'rxjs';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
