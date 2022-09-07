@@ -1,8 +1,9 @@
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatListModule} from "@angular/material/list";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {StoreModule} from "@ngrx/store";
 import {uploadInitialState, uploadReducer} from "../data/access/state/upload.reducer";
@@ -25,7 +26,8 @@ import {UploadComponent} from './upload/upload.component';
     MatIconModule,
     MatButtonModule,
     MatListModule,
-    StoreModule.forFeature('uploads', uploadReducer)
+    StoreModule.forFeature('uploads', uploadReducer),
+    MatProgressBarModule,
   ],
   providers: [],
   exports: [

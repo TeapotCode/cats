@@ -18,6 +18,7 @@ export class UploadComponent implements OnInit, OnDestroy {
   error!: Error;
   private imagesSubscription!: Subscription;
   isLoading!: boolean;
+  isDeleting!: boolean;
 
   uploadHelper(file: File) {
     console.table(file);
@@ -32,7 +33,8 @@ export class UploadComponent implements OnInit, OnDestroy {
         console.log(this.error);
       },
       () => {
-        this.isLoading = false;
+
+        this.syncStateWIthAPI();
       }
     );
   }
@@ -48,10 +50,17 @@ export class UploadComponent implements OnInit, OnDestroy {
   }
 
   onDelete(image: Image) {
-    //this.store.dispatch(deleteImage({image: image}));
+    this.isDeleting = true;
     this.uploadService.deleteImage(image).subscribe(result => {
       this.syncStateWIthAPI();
-    })
+
+    }, error => {
+
+      },
+      () => {
+
+      }
+    )
   }
 
   constructor(private uploadService: UploadService, private store: Store, ) { }
@@ -72,7 +81,8 @@ export class UploadComponent implements OnInit, OnDestroy {
 
       },
       () => {
-
+        this.isDeleting = false;
+        this.isLoading = false;
       }
     )
   }
