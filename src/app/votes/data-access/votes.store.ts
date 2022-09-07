@@ -108,7 +108,7 @@ export class VotesStore extends ComponentStore<VotesState> {
               this.updateImages(result);
               this.updateLoader();
             },
-            error: (e) => console.log(e),
+            error: (e) => console.error(e),
           })
         )
       )
@@ -121,10 +121,7 @@ export class VotesStore extends ComponentStore<VotesState> {
       mergeMap((id) =>
         this.apiCats.removeFavorite(id).pipe(
           tap({
-            next: (result) => {
-              this.updateImagesIfDislike(id);
-              console.log(result);
-            },
+            next: (result) => this.updateImagesIfDislike(id),
             error: (e) => {
               this.updateImagesIfClickFavourite(id);
               console.error(e);
@@ -141,10 +138,7 @@ export class VotesStore extends ComponentStore<VotesState> {
       mergeMap((id) =>
         this.apiCats.setFavorite(id).pipe(
           tap({
-            next: (result) => {
-              this.updateImagesIfLike({ id, result });
-              console.log(result);
-            },
+            next: (result) => this.updateImagesIfLike({ id, result }),
             error: (e) => {
               this.updateImagesIfClickFavourite(id);
               console.error(e);
@@ -160,11 +154,8 @@ export class VotesStore extends ComponentStore<VotesState> {
       mergeMap((id) =>
         this.apiCats.removeVote(id).pipe(
           tap({
-            next: (result) => {
-              this.updateImagesIfDelete(id);
-              console.log(result);
-            },
-            error: (e) => console.log(e),
+            next: (result) => this.updateImagesIfDelete(id),
+            error: (e) => console.error(e),
           })
         )
       )
