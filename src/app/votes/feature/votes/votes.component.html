@@ -1,4 +1,4 @@
-<mat-list *ngIf="loader$ | async; else empty">
+<mat-list *ngIf="loader$ | async as test; else empty">
   <div mat-subheader>Positive</div>
 
   <app-display-votes
@@ -10,6 +10,7 @@
   ></app-display-votes>
 
   <mat-divider></mat-divider>
+
   <div mat-subheader>Negative</div>
 
   <app-display-votes
@@ -21,4 +22,8 @@
   ></app-display-votes>
 </mat-list>
 
-<ng-template #empty>Pusto</ng-template>
+<ng-template #empty>
+  <div class="loader">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

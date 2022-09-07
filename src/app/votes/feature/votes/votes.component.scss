@@ -2,3 +2,11 @@
   max-width: 768px;
   margin: 0 auto;
 }
+
+.loader {
+  width: 100vw;
+  height: calc(100vh - 64px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

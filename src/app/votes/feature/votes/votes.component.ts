@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { ApiVotesService } from '../../data-access/services/api-votes.service';
 import { VotesStore } from '../../data-access/votes.store';
 import { voteImages } from '../../utilities/votesImages.model';
 
@@ -11,11 +11,11 @@ import { voteImages } from '../../utilities/votesImages.model';
   providers: [VotesStore],
 })
 export class VotesComponent implements OnInit {
-  positiveImages$ = this.store.selectImagesPositive();
-  negativeImages$ = this.store.selectImagesNegative();
-  loader$ = this.store.selectLoader();
+  positiveImages$: Observable<voteImages[]> = this.store.selectImagesPositive();
+  negativeImages$: Observable<voteImages[]> = this.store.selectImagesNegative();
+  loader$: Observable<boolean> = this.store.selectLoader();
 
-  constructor(private votes: ApiVotesService, private store: VotesStore) {}
+  constructor(private store: VotesStore) {}
 
   ngOnInit(): void {
     this.store.getImages({});
