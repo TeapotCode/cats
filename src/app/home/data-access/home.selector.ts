@@ -32,3 +32,8 @@ export const selectMimeType = createSelector(
   featureSelector,
   (state: HomeState) => state.mimeType
 );
+
+export const selectIsLoading = createSelector(
+  featureSelector,
+  (state: HomeState) => state.isLoading
+);

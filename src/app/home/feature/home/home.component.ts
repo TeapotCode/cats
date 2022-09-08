@@ -10,12 +10,13 @@ import {
 import { Store } from '@ngrx/store';
 import { filter, map, pairwise, throttleTime } from 'rxjs';
 import {
-  loadPhotos,
-  loadCategories,
   loadBreeds,
+  loadCategories,
+  loadPhotos,
 } from '../../data-access/home.action';
-import { selectImages } from '../../data-access/home.selector';
+import { selectImages, selectIsLoading } from '../../data-access/home.selector';
 import { RandomImage } from '../../utils/randomImage.interface';
+import { resetRandomImages } from '../../data-access/home.action';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -23,7 +24,20 @@ import { RandomImage } from '../../utils/randomImage.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit, AfterViewInit {
+  images$ = this.store.select(selectImages);
+  isLoading$ = this.store.select(selectIsLoading);
+
+  ngOnInit(): void {
+    this.store.dispatch(resetRandomImages());
+    this.store.dispatch(loadPhotos());
+    this.store.dispatch(loadCategories());
+    this.store.dispatch(loadBreeds());
+  }
+
   constructor(private store: Store, private ngZone: NgZone) {}
+
+  @ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
+
   ngAfterViewInit(): void {
     this.scroller
       .elementScrolled()
@@ -38,16 +52,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
           this.store.dispatch(loadPhotos());
         });
       });
-  }
-
-  images$ = this.store.select(selectImages);
-
-  @ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
-
-  ngOnInit(): void {
-    this.store.dispatch(loadPhotos());
-    this.store.dispatch(loadCategories());
-    this.store.dispatch(loadBreeds());
   }
 
   trackById(index: number, image: RandomImage) {

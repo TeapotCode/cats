@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as homeAction from '../../data-access/home.action';
 import { MimeType } from '../../utils/mime-type.interface';
@@ -15,6 +15,7 @@ import { selectMimeType } from '../../data-access/home.selector';
   selector: 'app-filters',
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FiltersComponent {
   categories$ = this.store.select(selectCategories);

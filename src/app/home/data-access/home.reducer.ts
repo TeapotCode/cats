@@ -92,7 +92,11 @@ export const homeReducer = createReducer(
     breeds,
   })),
 
-  on(homeActions.resetRandomImages, (state) => ({ ...state, images: [] })),
+  on(homeActions.resetRandomImages, (state) => ({
+    ...state,
+    images: [],
+    isLoading: true,
+  })),
 
   on(homeActions.switchCategory, (state, { categoryId }) => ({
     ...state,
@@ -110,5 +114,7 @@ export const homeReducer = createReducer(
     ...state,
     mimeType,
     breedSelected: null,
-  }))
+  })),
+
+  on(homeActions.loadPhotos, (state) => ({ ...state, isLoading: true }))
 );
