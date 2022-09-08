@@ -16,7 +16,7 @@ export class VotesComponent implements OnInit {
   images$: Observable<voteImages[]> = this.store.selectImages();
   loader$: Observable<boolean> = this.store.selectLoader();
 
-  constructor(private store: VotesStore) {}
+  constructor(private readonly store: VotesStore) {}
 
   ngOnInit(): void {
     this.store.getImages({});
@@ -34,3 +34,4 @@ export class VotesComponent implements OnInit {
     this.store.deleteImageVote(vote_id);
   }
 }
+1;

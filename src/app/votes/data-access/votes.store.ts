@@ -10,7 +10,7 @@ export interface VotesState {
   image: voteImages[];
   loader: boolean;
 }
-interface helperIfLike {
+export interface helperIfLike {
   id: string;
   result: any; //{message, id}
 }
@@ -22,17 +22,17 @@ export class VotesStore extends ComponentStore<VotesState> {
   }
 
   //reducers
-  protected updateImages = this.updater((state, image: voteImages[]) => ({
+  readonly updateImages = this.updater((state, image: voteImages[]) => ({
     ...state,
     image,
   }));
 
-  protected updateLoader = this.updater((state) => ({
+  readonly updateLoader = this.updater((state) => ({
     ...state,
     loader: !state.loader,
   }));
 
-  protected updateImagesIfDislike = this.updater((state, id: number) => {
+  readonly updateImagesIfDislike = this.updater((state, id: number) => {
     const newImage: voteImages[] = state.image.map((img) =>
       img.favoriteId === id ? { ...img, isFavorite: false } : img
     );
@@ -43,7 +43,7 @@ export class VotesStore extends ComponentStore<VotesState> {
     };
   });
 
-  protected updateImagesIfLike = this.updater((state, id: helperIfLike) => {
+  readonly updateImagesIfLike = this.updater((state, id: helperIfLike) => {
     const newImage: voteImages[] = state.image.map((img) =>
       img.image_id === id.id
         ? { ...img, isFavorite: true, favoriteId: id.result.id }
@@ -56,7 +56,7 @@ export class VotesStore extends ComponentStore<VotesState> {
     };
   });
 
-  protected updateImagesIfDelete = this.updater((state, id: number) => {
+  readonly updateImagesIfDelete = this.updater((state, id: number) => {
     const newImage = state.image.filter((img) => img.id !== id);
     return {
       ...state,
@@ -64,7 +64,7 @@ export class VotesStore extends ComponentStore<VotesState> {
     };
   });
 
-  protected updateImagesIfClickFavourite = this.updater(
+  readonly updateImagesIfClickFavourite = this.updater(
     (state, id: string | number) => {
       const newImage: voteImages[] = state.image.map((img) =>
         img.image_id === id || img.favoriteId === id
