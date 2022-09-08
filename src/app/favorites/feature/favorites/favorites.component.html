@@ -1,1 +1,6 @@
-<app-table [data$]="favorites$" ></app-table>
+<app-table 
+[data$]="favorites$"
+(ToDislike)="dislike($event)"
+(ToLike)="like($event)"
+(ToRemove)="remove($event)">
+</app-table>

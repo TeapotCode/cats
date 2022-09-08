@@ -5,6 +5,7 @@ import { FavoritesStore } from '../../data-access/api-service/favorites.store';
 import { Api } from 'src/app/shell/utils/api.interfaces';
 import { Store } from '@ngrx/store';
 import { forkJoin } from "rxjs"
+import { toVote } from '../../utils/toVote';
 
 @Component({
   selector: 'app-favorites',
@@ -16,15 +17,25 @@ import { forkJoin } from "rxjs"
 
 export class FavoritesComponent implements OnInit {
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private favoriteStore:FavoritesStore) {}
   favorites$=this.store.select(selectFavouritesImages)
 
   ngOnInit(): void {
-
+    this.favorites$=this.store.select(selectFavouritesImages)
   }
 
-  ngOnViewInit(){
-    this.favorites$=this.store.select(selectFavouritesImages)
+
+  dislike(cat:toVote){
+    this.favoriteStore.delete(cat)
+    this.favoriteStore.dislike(cat)
+  }
+
+  remove(cat:toVote){
+    this.favoriteStore.delete(cat)
+  }
+
+  like(cat:toVote){
+    this.favoriteStore.like(cat)
   }
 }
 
