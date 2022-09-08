@@ -24,4 +24,4 @@
   <tr mat-header-row *matHeaderRowDef="displayedcolumns"></tr>
   <tr mat-row *matRowDef="let cat; columns: displayedcolumns"></tr>
 </table>
-<mat-paginator [pageSizeOptions]="[5,10,20]" aria-label="Select page of cats"></mat-paginator>
+<mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons="firstLastButtons" aria-label="Select page of cats"></mat-paginator>
