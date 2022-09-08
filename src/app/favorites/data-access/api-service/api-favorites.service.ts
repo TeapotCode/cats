@@ -11,12 +11,28 @@ import { selectFavouritesImages } from 'src/app/shell/data-access/cats.selector'
 })
 export class ApiFavoritesService {
 
-constructor(private store:Store) { }
+constructor(private store:Store, private http: HttpClient) { }
 
 getFavorites():Observable<Favorites[]>
 {
   this.store.dispatch(loadFromApi());
   return this.store.select(selectFavouritesImages);
+}
+
+sendVote(value: number, imageId: string) {
+  return this.http.post<{ message: string; id: number }>(
+    'https://api.thecatapi.com/v1/votes',
+    {
+      image_id: imageId,
+      value,
+    }
+  );
+}
+
+removeVote(voteId: number) {
+  return this.http.delete(
+    `https://api.thecatapi.com/v1/votes/${voteId}`
+  );
 }
 
 }
