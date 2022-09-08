@@ -1,5 +1,24 @@
 <app-filters></app-filters>
 
-<ng-container *ngFor="let image of images$ | async; trackBy: trackById">
-  <app-card [image]="image"></app-card>
+<ng-container *ngIf="images$ | async as images">
+  <h3 *ngIf="!(isLoading$ | async) && images.length === 0">
+    Images not found! Try changing categories
+  </h3>
+
+  <cdk-virtual-scroll-viewport class="content" #scroller itemSize="400">
+    <ng-container
+      *cdkVirtualFor="
+        let image of images;
+        trackBy: trackById;
+        templateCacheSize: 50
+      "
+    >
+      <app-card [image]="image"></app-card>
+    </ng-container>
+
+    <div class="spinner-item" *ngIf="isLoading$ | async">
+      <mat-progress-spinner [mode]="'indeterminate'" [diameter]="50">
+      </mat-progress-spinner>
+    </div>
+  </cdk-virtual-scroll-viewport>
 </ng-container>

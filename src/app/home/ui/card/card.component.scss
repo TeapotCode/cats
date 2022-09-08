@@ -2,6 +2,8 @@
   display: grid;
   grid-template-rows: 1fr 3rem;
 
+  padding-top: 10px;
+
   width: max-content;
   margin: 0 auto;
   align-items: center;
@@ -13,6 +15,7 @@
   top: -10px;
   right: -10px;
   width: 40px;
+
   height: 40px;
   border-radius: 999px;
   background-color: gray;
@@ -37,8 +40,11 @@
 }
 
 img {
-  width: 24rem;
+  /* width: 600px; */
+  min-width: 200px;
+  background-color: rgb(191, 191, 191);
   border: solid var(--color, rgb(191, 191, 191)) 0.5rem;
+  object-fit: contain;
 }
 
 .green {
@@ -58,5 +64,11 @@ img {
 }
 
 mat-icon {
+  cursor: pointer;
+}
+
+p {
+  grid-column: span 2;
+  font-weight: 700;
   cursor: pointer;
 }

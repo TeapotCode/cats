@@ -1,1 +1,38 @@
-<p>filters works!</p>
+<mat-form-field appearance="fill">
+  <mat-label>Type</mat-label>
+  <mat-select
+    [value]="mimeType$ | async"
+    (selectionChange)="onTypeChange($any($event))"
+  >
+    <mat-option value="all">All</mat-option>
+    <mat-option value="jpg">JPG</mat-option>
+    <mat-option value="png">PNG</mat-option>
+    <mat-option value="gif">GIF</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Categories</mat-label>
+  <mat-select [value]="categoriesSelected$ | async">
+    <mat-option [value]="null" (click)="onCategoryClick(null)">None</mat-option>
+    <mat-option
+      (click)="onCategoryClick(category.id)"
+      [value]="category.id"
+      *ngFor="let category of categories$ | async"
+      >{{ category.name | titlecase }}</mat-option
+    >
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Breed</mat-label>
+  <mat-select [value]="breedSelected$ | async">
+    <mat-option [value]="null" (click)="onBreedClick(null)">None</mat-option>
+    <mat-option
+      (click)="onBreedClick(breed.id)"
+      [value]="breed.id"
+      *ngFor="let breed of breeds$ | async"
+      >{{ breed.name | titlecase }}</mat-option
+    >
+  </mat-select>
+</mat-form-field>
