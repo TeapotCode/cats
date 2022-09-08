@@ -6,7 +6,6 @@ import { MimeType } from '../utils/mime-type.interface';
 
 export interface HomeState {
   images: RandomImage[];
-
   categorySelected: number | null;
   categories: Category[];
 
