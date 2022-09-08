@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as catsAction from '../../data-access/cats.action';
-import { Store } from '@ngrx/store';
-import * as catsAction from '../../data-access/cats.action';
 
 @Component({
   selector: 'app-shell',
@@ -10,7 +8,7 @@ import * as catsAction from '../../data-access/cats.action';
   styleUrls: ['./shell.component.scss'],
 })
 export class ShellComponent implements OnInit {
-  constructor(private store: Storeprivate store: Store) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.store.dispatch(catsAction.loadFromApi());
