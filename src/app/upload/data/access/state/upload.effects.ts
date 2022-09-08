@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
 import {Store} from "@ngrx/store";
-import {catchError, map, Observable, startWith, switchMap, tap} from "rxjs";
+import {catchError, concatMap, from, last, map, Observable, pipe, startWith, switchMap, tap} from "rxjs";
 import {UploadService} from "../upload.service";
 import * as UploadActions from './upload.actions';
 
@@ -11,6 +11,7 @@ export class UploadEffects {
   syncStateEffect$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UploadActions.syncState),
+      tap(() => this.store.dispatch(UploadActions.startLoading())),
       switchMap(() => this.uploadService.getUploadedImages()),
       map(response => UploadActions.fillStateWithImages({images: response})),
       catchSwitchMapError((error) => UploadActions.displayServerError({error: error}))
@@ -30,7 +31,8 @@ export class UploadEffects {
     return this.actions$.pipe(
       ofType(UploadActions.uploadImage),
       tap(() => this.store.dispatch(UploadActions.startLoading())),
-      switchMap(action => this.uploadService.upload(action.file)),
+      concatMap(({files}) => from(files)),
+      concatMap((file) => this.uploadService.upload(file)),
       map(() => UploadActions.syncState()),
       catchSwitchMapError((error) => UploadActions.displayServerError({error: error}))
     )

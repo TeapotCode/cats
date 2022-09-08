@@ -8,15 +8,16 @@ import {Image} from "../../utilities/ImagesInterface";
   providedIn: 'root'
 })
 export class UploadService {
-  SERVER_URL: string = 'https://api.thecatapi.com/v1/images';
-  headers = new HttpHeaders({
+  private SERVER_URL: string = 'https://api.thecatapi.com/v1/images';
+  private headers = new HttpHeaders({
     'x-api-key': environment.API_KEY,
   })
-  options = {
+  private options = {
     headers: this.headers,
   }
 
   public upload(file: File) {
+    console.log('upload called');
     const formData = new FormData();
     formData.append("file", file, file.name);
     return this.httpClient.post(`${this.SERVER_URL}/upload`, formData, this.options);

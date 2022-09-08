@@ -17,7 +17,7 @@ export const uploadReducer = createReducer(
   on(uploadActions.fillStateWithImages, (state: UploadState, { images }) => ({
     ...state,
     images: [...images],
-    isUploading: false
+    //isUploading: false
   })),
   on(uploadActions.addImagesToState, (state: UploadState, { images }) => ({
     ...state,
@@ -30,5 +30,9 @@ export const uploadReducer = createReducer(
   on(uploadActions.startLoading, (state: UploadState) => ({
     ...state,
     isUploading: true
+  })),
+  on(uploadActions.stopLoading, uploadActions.fillStateWithImages, (state: UploadState) => ({
+    ...state,
+    isUploading: false
   })),
 )
