@@ -12,11 +12,15 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
+import { DatePipe } from '@angular/common';
+import { datePipe } from '../utils/datePipe';
+
 
 @NgModule({
   declarations: [
     FavoritesComponent,
-    TableComponent
+    TableComponent,
+    datePipe
   ],
   imports: [
     CommonModule,

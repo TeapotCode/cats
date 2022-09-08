@@ -18,10 +18,13 @@ export class FavoritesComponent implements OnInit {
 
   constructor(private store: Store) {}
   favorites$=this.store.select(selectFavouritesImages)
-  voted$=this.store.select(selectVotedImages)
 
   ngOnInit(): void {
 
+  }
+
+  ngOnViewInit(){
+    this.favorites$=this.store.select(selectFavouritesImages)
   }
 }
 
