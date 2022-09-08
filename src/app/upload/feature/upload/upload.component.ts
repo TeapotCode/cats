@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from "@ngrx/store";
 import {Observable, Subscription, take} from "rxjs";
-import {addImagesToState, deleteImage, fillStateWithImages} from "../../data/access/state/upload.actions";
+import {addImagesToState, deleteImage, fillStateWithImages, syncState} from "../../data/access/state/upload.actions";
 import {getAllImages} from "../../data/access/state/upload.selectors";
 import {UploadService} from '../../data/access/upload.service';
 import {Image} from "../../utilities/ImagesInterface";
@@ -20,7 +20,6 @@ export class UploadComponent implements OnInit, OnDestroy {
   isDeleting!: boolean;
 
   uploadHelper(file: File) {
-    console.table(file);
     this.isLoading = true;
     this.uploadService.upload(file).subscribe(
       result => {
@@ -69,20 +68,21 @@ export class UploadComponent implements OnInit, OnDestroy {
   }
 
   syncStateWIthAPI() {
-    this.uploadService.getUploadedImages().pipe(
-      take(1)
-    ).subscribe(
-      result => {
-        this.store.dispatch(fillStateWithImages({images: result}))
-      },
-      error => {
-        this.snackBar.open("Can't display data.")
-        this.resetFlags();
-      },
-      () => {
-        this.resetFlags();
-      }
-    )
+    // this.uploadService.getUploadedImages().pipe(
+    //   take(1)
+    // ).subscribe(
+    //   result => {
+    //     this.store.dispatch(fillStateWithImages({images: result}))
+    //   },
+    //   error => {
+    //     this.snackBar.open("Can't display data.")
+    //     this.resetFlags();
+    //   },
+    //   () => {
+    //     this.resetFlags();
+    //   }
+    // )
+    this.store.dispatch(syncState());
   }
 
   resetFlags() {

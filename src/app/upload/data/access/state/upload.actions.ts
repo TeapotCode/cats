@@ -22,3 +22,7 @@ export const fillStateWithImages = createAction(
   props<{images: Image[]}>()
 )
 
+export const syncState = createAction(
+  '[Upload] Sync State'
+)
+
