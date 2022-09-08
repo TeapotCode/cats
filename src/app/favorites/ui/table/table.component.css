@@ -1,4 +1,17 @@
-td.mat-cell, th.mat-header-cell {
-    text-align: center;
-    justify-content:center;
+img{
+    position: absolute;
+    max-height: 100%;
+    width: 20%;
+    top: 0;
+}
+
+table{
+    table-layout: fixed;
+    margin: auto;
+    width: 100%;
+}
+
+td{
+    position: relative;
+    width: 40%;
 }

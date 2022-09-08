@@ -1,6 +1,7 @@
 import { Component, OnInit,Input,AfterViewInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Api } from 'src/app/shell/utils/api.interfaces';
 
@@ -19,9 +20,9 @@ export class TableComponent implements OnInit {
 
   dataSource=new MatTableDataSource<Api.FavoriteImage>();
 
-  displayedcolumns:string[]=['image','added']
+  displayedcolumns:string[]=['image','added','voted']
 
-  constructor() {
+  constructor(private store: Store) {
    }
 
   ngOnInit() {
@@ -33,6 +34,18 @@ export class TableComponent implements OnInit {
 
   ngAfterViewInit(){
     this.dataSource.paginator=this.paginator
+  }
+
+  dislike(image_id:string){
+
+  }
+
+  remove(image_id:string){
+
+  }
+
+  like(image_id:string){
+    
   }
 
 
