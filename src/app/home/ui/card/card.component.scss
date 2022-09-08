@@ -66,3 +66,9 @@ img {
 mat-icon {
   cursor: pointer;
 }
+
+p {
+  grid-column: span 2;
+  font-weight: 700;
+  cursor: pointer;
+}

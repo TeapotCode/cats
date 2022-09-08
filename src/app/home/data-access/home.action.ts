@@ -43,11 +43,6 @@ export const setImageVoteId = createAction(
   props<{ value: number; voteId: number; imageId: string }>()
 );
 
-export const revertLike = createAction(
-  '[Home STORE] Revert dis/like',
-  props<{ imageId: string }>()
-);
-
 //Favorite related actions
 export const switchFavorite = createAction(
   '[Home PAGE] Toggle favourite button',

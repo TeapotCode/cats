@@ -30,8 +30,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
       .pipe(
         map(() => this.scroller.measureScrollOffset('bottom')),
         pairwise(),
-        filter(([y1, y2]) => y2 < y1 && y2 < 140),
-        throttleTime(200)
+        filter(([y1, y2]) => y2 < y1 && y2 < 2000),
+        throttleTime(2000)
       )
       .subscribe(() => {
         this.ngZone.run(() => {

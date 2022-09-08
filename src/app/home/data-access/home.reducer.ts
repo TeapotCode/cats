@@ -13,6 +13,8 @@ export interface HomeState {
   breeds: Category[];
 
   mimeType: MimeType;
+
+  isLoading: boolean;
 }
 
 const initialState: HomeState = {
@@ -22,6 +24,7 @@ const initialState: HomeState = {
   breedSelected: null,
   breeds: [],
   mimeType: 'all',
+  isLoading: true,
 };
 
 export const homeReducerKey = 'home';
@@ -52,6 +55,7 @@ export const homeReducer = createReducer(
     return {
       ...state,
       images: [...state.images, ...images],
+      isLoading: false,
     };
   }),
 
