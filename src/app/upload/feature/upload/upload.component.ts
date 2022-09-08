@@ -1,9 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
-import {Observable, Subscription, take} from "rxjs";
-import {addImagesToState, deleteImage, fillStateWithImages, syncState} from "../../data/access/state/upload.actions";
-import {getAllImages} from "../../data/access/state/upload.selectors";
+import {Observable} from "rxjs";
+import {deleteImage, syncState, uploadImage} from "../../data/access/state/upload.actions";
+import {getAllImages, getIsUploading, getNumberOfImages} from "../../data/access/state/upload.selectors";
 import {UploadService} from '../../data/access/upload.service';
 import {Image} from "../../utilities/ImagesInterface";
 
@@ -12,85 +11,32 @@ import {Image} from "../../utilities/ImagesInterface";
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss']
 })
-export class UploadComponent implements OnInit, OnDestroy {
+export class UploadComponent implements OnInit {
   images$!: Observable<Image[]>
-  progress!: number;
+  numberOfImages$!: Observable<number>;
+  isUploading$!: Observable<boolean>;
   file!: File;
-  isLoading!: boolean;
-  isDeleting!: boolean;
-
-  uploadHelper(file: File) {
-    this.isLoading = true;
-    this.uploadService.upload(file).subscribe(
-      result => {
-
-      },
-      error => {
-        this.snackBar.open("Can't upload image.")
-        this.resetFlags()
-      },
-      () => {
-        this.syncStateWIthAPI();
-      }
-    );
-  }
 
   onFileDropped(event: any) {
     for (let file of event) {
-      this.uploadHelper(file);
+      this.store.dispatch(uploadImage({file}));
     }
   }
 
   onfileInputChange(event: any) {
-   this.uploadHelper(event.target.files[0]);
+    this.store.dispatch(uploadImage({file: event.target.files[0]}));
   }
 
   onDelete(image: Image) {
-    this.isDeleting = true;
-    this.uploadService.deleteImage(image).subscribe(result => {
-      this.syncStateWIthAPI();
-
-    }, error => {
-        this.snackBar.open("Can't delete image.")
-        this.resetFlags()
-      },
-      () => {
-
-      }
-    )
+    this.store.dispatch(deleteImage({image: image}))
   }
 
-  constructor(private uploadService: UploadService, private store: Store, private snackBar: MatSnackBar ) { }
+  constructor(private uploadService: UploadService, private store: Store) { }
 
   ngOnInit() {
-    this.syncStateWIthAPI();
-    this.images$ = this.store.select(getAllImages);
-  }
-
-  syncStateWIthAPI() {
-    // this.uploadService.getUploadedImages().pipe(
-    //   take(1)
-    // ).subscribe(
-    //   result => {
-    //     this.store.dispatch(fillStateWithImages({images: result}))
-    //   },
-    //   error => {
-    //     this.snackBar.open("Can't display data.")
-    //     this.resetFlags();
-    //   },
-    //   () => {
-    //     this.resetFlags();
-    //   }
-    // )
     this.store.dispatch(syncState());
-  }
-
-  resetFlags() {
-    this.isDeleting = false;
-    this.isLoading = false;
-  }
-
-  ngOnDestroy() {
-
+    this.images$ = this.store.select(getAllImages);
+    this.isUploading$ = this.store.select(getIsUploading);
+    this.numberOfImages$ = this.store.select(getNumberOfImages);
   }
 }

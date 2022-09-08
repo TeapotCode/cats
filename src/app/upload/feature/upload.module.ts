@@ -1,4 +1,4 @@
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
@@ -9,12 +9,11 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {EffectsModule} from "@ngrx/effects";
 import {StoreModule} from "@ngrx/store";
 import {UploadEffects} from "../data/access/state/upload.effects";
-import {uploadInitialState, uploadReducer} from "../data/access/state/upload.reducer";
+import {uploadReducer} from "../data/access/state/upload.reducer";
 import {DragAndDropDirective} from "../utilities/drag-and-drop.directive";
-
-
 import {UploadRoutingModule} from './upload-routing.module';
 import {UploadComponent} from './upload/upload.component';
+
 
 
 @NgModule({
@@ -30,8 +29,6 @@ import {UploadComponent} from './upload/upload.component';
     MatButtonModule,
     MatListModule,
     StoreModule.forFeature('uploads', uploadReducer),
-    //EffectsModule.forRoot([UploadEffects]),
-    //EffectsModule.forRoot([]),
     EffectsModule.forFeature([UploadEffects]),
     MatProgressBarModule,
     MatSnackBarModule,

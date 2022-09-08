@@ -4,7 +4,7 @@ import {Image} from "../../../utilities/ImagesInterface"
 
 export const uploadImage = createAction(
   '[Upload] Upload Image',
-  props<{image: Image}>()
+  props<{file: File}>()
 )
 
 export const addImagesToState = createAction(
@@ -26,3 +26,11 @@ export const syncState = createAction(
   '[Upload] Sync State'
 )
 
+export const displayServerError = createAction(
+  '[Upload] Display Server Error',
+  props<{error: Error}>()
+)
+
+export const startLoading = createAction(
+  '[Upload] Start Loading'
+)
