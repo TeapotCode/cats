@@ -8,6 +8,9 @@ import { FavoritesStore } from '../data-access/api-service/favorites.store';
 import { TableComponent } from '../ui/table/table.component';
 
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -18,7 +21,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   imports: [
     CommonModule,
     FavoritesRoutingModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule
   ],
   providers:[FavoritesStore]
 })

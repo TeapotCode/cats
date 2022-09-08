@@ -1,3 +1,1 @@
-<div *ngFor="let image of favorites$ |async">
-    <img [src]="image.image.url">
-</div>
+<app-table [data$]="favorites$" ></app-table>

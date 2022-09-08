@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input,AfterViewInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { Observable } from 'rxjs';
+import { Api } from 'src/app/shell/utils/api.interfaces';
 
 @Component({
   selector: 'app-table',
@@ -7,9 +11,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TableComponent implements OnInit {
 
-  constructor() { }
+  @Input() data$!:Observable<Api.FavoriteImage[]>
+  @ViewChild(MatPaginator) paginator:any= MatPaginator;
+
+  data:Api.FavoriteImage[]=[]
+  
+
+  dataSource=new MatTableDataSource<Api.FavoriteImage>();
+
+  displayedcolumns:string[]=['image','added']
+
+  constructor() {
+   }
 
   ngOnInit() {
+    this.data$.subscribe(cats=>
+      {
+        this.dataSource.data=cats;
+      })
   }
+
+  ngAfterViewInit(){
+    this.dataSource.paginator=this.paginator
+  }
+
 
 }
