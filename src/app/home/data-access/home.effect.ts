@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { map, switchMap, tap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import { selectAll } from '../../shell/data-access/cats.selector';
-import * as homeAction from './home.action';
 import { ApiHomeService } from './api-home.service';
+import * as homeAction from './home.action';
 import {
-  selectImages,
-  selectCategoriesSelected,
   selectBreedSelected,
+  selectCategoriesSelected,
+  selectImages,
 } from './home.selector';
-import { switchCategory } from './home.action';
 
 @Injectable()
 export class HomeEffects {
