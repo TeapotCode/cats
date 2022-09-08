@@ -1,49 +1,42 @@
 import {Component, OnInit} from '@angular/core';
+import {Store} from "@ngrx/store";
+import {Observable} from "rxjs";
+import {deleteImage, syncState, uploadImage} from "../../data/access/state/upload.actions";
+import {getAllImages, getIsUploading, getNumberOfImages} from "../../data/access/state/upload.selectors";
 import {UploadService} from '../../data/access/upload.service';
+import {Image} from "../../utilities/ImagesInterface";
 
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss']
 })
-export class UploadComponent {
-  loading: boolean = false; // Flag variable
-  progress!: number;
+export class UploadComponent implements OnInit {
+  images$!: Observable<Image[]>
+  numberOfImages$!: Observable<number>;
+  isUploading$!: Observable<boolean>;
   file!: File;
-  error!: Error;
-
-  upload(file: File) {
-    this.loading = true;
-    this.uploadService.upload(file).subscribe(
-      result => {
-      },
-      error => {
-        this.error = error;
-        this.loading = false;
-        console.log(this.error);
-      },
-      () => {
-        this.loading = false;
-      }
-    );
-  }
 
   onFileDropped(event: any) {
-    console.log(`Event: ${event}`)
-    console.table(event);
     for (let file of event) {
-      this.uploadFile(file);
+      this.store.dispatch(uploadImage({file}));
     }
   }
 
-  fileBrowserHandler(event: any) {
-   this.uploadFile(event.target.files[0]);
+  onfileInputChange(event: any) {
+    this.store.dispatch(uploadImage({file: event.target.files[0]}));
   }
 
-  uploadFile(file: File) {
-    this.file = file;
-    this.upload(this.file);
+  onDelete(image: Image) {
+    this.store.dispatch(deleteImage({image: image}))
   }
 
-  constructor(private uploadService: UploadService) { }
+  constructor(private uploadService: UploadService, private store: Store) { }
+
+  ngOnInit() {
+    this.store.dispatch(syncState());
+    this.images$ = this.store.select(getAllImages);
+    this.isUploading$ = this.store.select(getIsUploading);
+    this.numberOfImages$ = this.store.select(getNumberOfImages);
+  }
 }

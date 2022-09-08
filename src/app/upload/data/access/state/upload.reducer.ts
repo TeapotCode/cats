@@ -4,20 +4,31 @@ import * as uploadActions from './upload.actions';
 
 export interface UploadState {
   images: Image[];
+  isUploading: boolean;
 }
 
 export const uploadInitialState: UploadState = {
-  images: []
+  images: [],
+  isUploading: false
 }
 
 export const uploadReducer = createReducer(
   uploadInitialState,
-  on(uploadActions.addUploads, (state: UploadState, { images }) => ({
+  on(uploadActions.fillStateWithImages, (state: UploadState, { images }) => ({
     ...state,
-    products: [...state.images, ...images]
+    images: [...images],
+    isUploading: false
   })),
-  on(uploadActions.deleteUploadedImage, (state: UploadState, { image }) => ({
+  on(uploadActions.addImagesToState, (state: UploadState, { images }) => ({
     ...state,
-    products: [...state.images.filter(img => img !== image)]
+    images: [...state.images, ...images]
+  })),
+  on(uploadActions.deleteImage, (state: UploadState, { image }) => ({
+    ...state,
+    images: [...state.images.filter(img => img.id !== image.id)]
+  })),
+  on(uploadActions.startLoading, (state: UploadState) => ({
+    ...state,
+    isUploading: true
   })),
 )

@@ -2,11 +2,14 @@
   width: 450px;
   height: 200px;
   padding: 2rem;
-
   text-align: center;
   border: dashed 1px #979797;
   position: relative;
   margin: 0 auto;
+}
+
+.progress {
+ height: 20px;
 }
 
 input {
@@ -25,3 +28,37 @@ input {
   width: 50px;
   height: 50px;
 }
+
+img {
+  object-fit: cover;
+  height: 100%;
+  margin: 0 auto 0 0;
+  width: 70px;
+}
+
+mat-list-item.img-list-item {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: -8px 6px 5px 0px rgba(0,0,0,0.25);
+}
+
+.list {
+  width: 500px;
+  margin: 0 auto;
+}
+
+mat-list {
+  margin: 0 auto;
+}
+
+h2 {
+  text-align: center;
+  margin: 20px 0;
+}
+
+mat-progress-bar {
+  margin-top: 20px;
+}
+
+
