@@ -2,14 +2,18 @@ import { createReducer, on } from '@ngrx/store';
 import { Category } from '../utils/category.interface';
 import { RandomImage } from '../utils/randomImage.interface';
 import * as homeActions from './home.action';
+import { MimeType } from '../utils/mime-type.interface';
 
 export interface HomeState {
   images: RandomImage[];
+
   categorySelected: number | null;
   categories: Category[];
 
   breedSelected: number | null;
   breeds: Category[];
+
+  mimeType: MimeType;
 }
 
 const initialState: HomeState = {
@@ -18,6 +22,7 @@ const initialState: HomeState = {
   categories: [],
   breedSelected: null,
   breeds: [],
+  mimeType: 'all',
 };
 
 export const homeReducerKey = 'home';
@@ -86,16 +91,21 @@ export const homeReducer = createReducer(
 
   on(homeActions.resetRandomImages, (state) => ({ ...state, images: [] })),
 
-  on(homeActions.switchCategory, (state, { categoryId }) => {
-    return {
-      ...state,
-      categorySelected: categoryId,
-    };
-  }),
-  on(homeActions.switchBreed, (state, { breedId }) => {
-    return {
-      ...state,
-      breedSelected: breedId,
-    };
-  })
+  on(homeActions.switchCategory, (state, { categoryId }) => ({
+    ...state,
+    categorySelected: categoryId,
+    breedSelected: null,
+  })),
+  on(homeActions.switchBreed, (state, { breedId }) => ({
+    ...state,
+    breedSelected: breedId,
+    categorySelected: null,
+    mimeType: 'all',
+  })),
+
+  on(homeActions.setMimeType, (state, { mimeType }) => ({
+    ...state,
+    mimeType,
+    breedSelected: null,
+  }))
 );

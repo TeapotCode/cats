@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Image } from '../utils/image.interface';
-import { Params } from '@angular/router';
+import { Injectable } from '@angular/core';
 import { Category } from '../utils/category.interface';
+import { Image } from '../utils/image.interface';
+import { MimeType } from '../utils/mime-type.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,12 +13,17 @@ export class ApiHomeService {
   getImages(
     number: number,
     categoryId?: number | null,
-    breedId?: number | null
+    breedId?: number | null,
+    mimeType?: MimeType
   ) {
     let params = new HttpParams();
+
     if (categoryId) params = params.append('category_ids', categoryId);
 
     if (breedId) params = params.append('breed_ids', breedId);
+
+    if (mimeType && mimeType !== 'all')
+      params = params.append('mime_types', mimeType);
 
     return this.httpClient.get<Image[]>(
       `https://api.thecatapi.com/v1/images/search?limit=${number}`,

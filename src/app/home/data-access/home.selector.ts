@@ -27,3 +27,8 @@ export const selectBreedSelected = createSelector(
   featureSelector,
   (state: HomeState) => state.breedSelected
 );
+
+export const selectMimeType = createSelector(
+  featureSelector,
+  (state: HomeState) => state.mimeType
+);

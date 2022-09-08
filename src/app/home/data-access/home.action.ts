@@ -5,6 +5,7 @@ import {
   VoteFavImage,
 } from '../../shell/utils/api.interfaces';
 import { Category } from '../utils/category.interface';
+import { MimeType } from '../utils/mime-type.interface';
 
 export const loadPhotos = createAction(
   '[Home PAGE] Load random images request'
@@ -77,4 +78,10 @@ export const loadBreeds = createAction('[Home PAGE] Load Breeds');
 export const setBreeds = createAction(
   '[Home STORE] Set Breeds',
   props<{ breeds: Category[] }>()
+);
+
+//mime type
+export const setMimeType = createAction(
+  '[Home PAGE] Set Mime Type',
+  props<{ mimeType: MimeType }>()
 );

@@ -5,6 +5,7 @@ import { map, switchMap } from 'rxjs';
 import { selectAll } from '../../shell/data-access/cats.selector';
 import { ApiHomeService } from './api-home.service';
 import * as homeAction from './home.action';
+import { selectMimeType } from './home.selector';
 import {
   selectBreedSelected,
   selectCategoriesSelected,
@@ -18,15 +19,17 @@ export class HomeEffects {
       ofType(
         homeAction.loadPhotos,
         homeAction.switchCategory,
-        homeAction.switchBreed
+        homeAction.switchBreed,
+        homeAction.setMimeType
       ),
       concatLatestFrom(() => [
         this.store.select(selectAll),
         this.store.select(selectCategoriesSelected),
         this.store.select(selectBreedSelected),
+        this.store.select(selectMimeType),
       ]),
-      switchMap(([_action, state, category, breed]) =>
-        this.api.getImages(10, category, breed).pipe(
+      switchMap(([action, state, category, breed, mimeType]) =>
+        this.api.getImages(10, category, breed, mimeType).pipe(
           map((response) =>
             homeAction.setPhotos({
               newImages: response,
@@ -134,7 +137,11 @@ export class HomeEffects {
 
   switchCategory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(homeAction.switchCategory, homeAction.switchBreed),
+      ofType(
+        homeAction.switchCategory,
+        homeAction.switchBreed,
+        homeAction.setMimeType
+      ),
       map(() => homeAction.resetRandomImages())
     )
   );
