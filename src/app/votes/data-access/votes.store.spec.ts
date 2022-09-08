@@ -1,6 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { provideMockStore } from '@ngrx/store/testing';
 import { provideMock } from '@testing-library/angular/jest-utils';
 
 import { VotesStore } from './votes.store';
@@ -65,7 +64,6 @@ describe('VotesStore', () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientModule],
       providers: [
-        provideMockStore(),
         provideMock(ApiHomeService),
         provideMock(ApiVotesService),
         VotesStore,
