@@ -1,86 +1,171 @@
 import { state } from '@angular/animations';
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { map, Observable, switchMap, tap } from 'rxjs';
+import { map, merge, mergeMap, Observable, switchMap, tap } from 'rxjs';
 import { Favorites } from '../../utils/favorites';
 import { ApiFavoritesService } from './api-favorites.service';
+import { toVote } from '../../utils/toVote';
 
 export interface FavoritesState {
-    cats:Favorites[];
+    cats: Favorites[];
+    loader: boolean;
 }
 
 @Injectable()
 export class FavoritesStore extends ComponentStore<FavoritesState>{
-    constructor(private api:ApiFavoritesService){
-        super({cats:[]});
+    constructor(private api: ApiFavoritesService) {
+        super({ cats: [], loader: false });
     }
 
     //reducers
 
-    readonly favorites$:Observable<Favorites[]>=this.select((state)=>state.cats);
+    readonly favorites$: Observable<Favorites[]> = this.select((state) => state.cats);
 
-    protected addFavorites=this.updater((state,cats:Favorites[])=>(
+    protected addFavorites = this.updater((state, cats: Favorites[]) => (
         {
             ...state,
-            cats:[...state.cats,...cats]
+            cats: [...state.cats, ...cats]
         }
     ));
 
-    protected updateFAvorites=this.updater((state,cats:Favorites[])=>(
+    protected updateFavorites = this.updater((state, cats: Favorites[]) => (
         {
             ...state,
             cats
         }
     ));
 
-     ifLike = this.updater((state, id: string) => {
-        const cat: Favorites[] = state.cats.map((img) =>
-          img.image_id===id
-            ?{...img,voted:1}:img
-        );
-        return{
-            ...state,
-            cats:cat
-        }})
+    protected updateLoader = this.updater((state) => ({
+        ...state,
+        loader: !state.loader
+    }))
 
-     ifDislike = this.updater((state, id: string) => {
-        const cat: Favorites[] = state.cats.map((img) =>
-          img.image_id===id
-            ?{...img,voted:-1}:img
+    protected ifLike = this.updater((state, id: toVote) => {
+        //console.log('like', id);
+        const newImage: Favorites[] = state.cats.map((img) =>{
+            if (img.image_id === id.image_id) {
+                console.log({...img, vote: 1})
+                return { ...img, vote: 1 }
+            } else {
+    
+                return img
+            }}
         );
-        return{
-            ...state,
-            cats:cat
-        }})
 
-     ifRemoveVote= this.updater((state, id: string) => {
-        const cat: Favorites[] = state.cats.map((img) =>
-          img.image_id===id
-            ?{...img,voted:null}:img
-        );
-        return{
+        return {
             ...state,
-            cats:cat
-        }})
+            cats: newImage,
+        };
+    });
+
+    protected ifDislike = this.updater((state, id: toVote) => {
+        //console.log('dislike', id);
+        const newImage: Favorites[] = state.cats.map((img) =>{
+            if (img.image_id === id.image_id) {
+                console.log({...img, vote: -1})
+                return { ...img, vote: -1,voteId:id.voteId}
+            } else {
+    
+                return img
+            }}
+        );
+
+        return {
+            ...state,
+            cats: newImage,
+        };
+    });
+
+    protected ifRemoveVote = this.updater((state, id: toVote) => {
+        const newImage: Favorites[] = state.cats.map((img) =>{
+        if (img.image_id === id.image_id) {
+            //console.log({...img, vote: 0})
+            return { ...img, vote: 0 }
+        } else {
+
+            return img
+        }}
+    );
+        console.log(newImage)
+        return {
+            ...state,
+            cats: newImage,
+        };
+    });
 
     //selectors
 
-    selectFavorites():Observable<Favorites[]>{
-        return this.select((state)=>state.cats);
+    selectFavorites(): Observable<Favorites[]> {
+        return this.select((state) => state.cats);
+    }
+
+    selectLoader(): Observable<boolean> {
+        return this.select((state) => state.loader);
     }
 
     //effects
 
-    readonly getFavorites=this.effect((cats$:Observable<unknown>)=>
-    {
+    readonly getFavorites = this.effect((cats$: Observable<unknown>) => {
         return cats$.pipe(
-            switchMap((cats$)=>
-            {
-                return this.api.getFavorites();
-            }),
-            tap((response=>this.addFavorites(response)))
+            tap(() => this.updateLoader()),
+            switchMap((_) =>
+                this.api.getFavorites().pipe(
+                    tap({
+                        next: (result) => {
+                            this.updateFavorites(result);
+                            this.updateLoader();
+                        },
+                        error: (e) => console.error(e)
+                    })
+                )
+            )
         )
     }
-
     )
+
+
+    readonly like = this.effect((cats$: Observable<toVote>) => {
+        return cats$.pipe(
+            mergeMap((cat) =>
+                this.api.sendVote(1, cat.image_id).pipe(
+                    tap(
+                        {
+                            next: (result) => this.ifLike(cat),
+                            error: (e) => console.error(e)
+                        }
+                    )
+                ))
+        )
+
+    })
+
+    readonly dislike = this.effect((cats$: Observable<toVote>) => {
+        return cats$.pipe(
+            mergeMap((cat) =>
+                this.api.sendVote(-1, cat.image_id).pipe(
+                    tap(
+                        {
+                            next: (result) => this.ifDislike(cat),
+                            error: (e) => console.error(e)
+                        }
+                    )
+                ))
+        )
+
+    })
+
+    readonly delete = this.effect((cats$: Observable<toVote>) => {
+        return cats$.pipe(
+            mergeMap((cat) =>
+                this.api.removeVote(cat.voteId).pipe(
+                    tap(()=>this.ifRemoveVote(cat))
+                        //{
+                            //next: (result) => this.ifRemoveVote(cat),
+                            //error: (e) => console.error(e)
+                        //}
+                    )
+                ))
+        
+
+    });
 }

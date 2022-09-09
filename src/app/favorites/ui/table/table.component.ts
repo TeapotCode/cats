@@ -1,10 +1,11 @@
-import { Component, OnInit,Input,AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit,Input,AfterViewInit, ViewChild,OnChanges, Output, EventEmitter } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Api } from 'src/app/shell/utils/api.interfaces';
 import { FavoritesStore } from '../../data-access/api-service/favorites.store';
+import { toVote } from '../../utils/toVote';
 
 @Component({
   selector: 'app-table',
@@ -15,6 +16,8 @@ export class TableComponent implements OnInit {
 
   @Input() data$!:Observable<Api.FavoriteImage[]>
   @ViewChild(MatPaginator) paginator:any= MatPaginator;
+  @Output() ToDislike=new EventEmitter<toVote>();
+  @Output() ToLike=new EventEmitter<toVote>();
 
   data:Api.FavoriteImage[]=[]
   
@@ -33,20 +36,19 @@ export class TableComponent implements OnInit {
       })
   }
 
+  ngOnChanges(){
+  }
+
   ngAfterViewInit(){
     this.dataSource.paginator=this.paginator
   }
 
-  dislike(image_id:string){
-    this.favoriteStore.ifDislike(image_id)
+  dislike(image_id:string,voteId:number,vote:number){
+    this.ToDislike.emit({image_id,voteId,vote})
   }
 
-  remove(image_id:string){
-    this.favoriteStore.ifRemoveVote(image_id)
-  }
-
-  like(image_id:string){
-    this.favoriteStore.ifLike(image_id)
+  like(image_id:string,voteId:number,vote:number){
+    this.ToLike.emit({image_id,voteId,vote})
   }
 
 

@@ -1,1 +1,19 @@
-<app-table [data$]="favorites$" ></app-table>
+<ng-container *ngIf="loader$ | async as test; else load">
+    <ng-container *ngIf="favorites$ | async as images">
+      <h1 *ngIf="!images.length" class="information">
+        Go to home to choose your favourites
+      </h1>
+    <app-table *ngIf="images.length"
+        [data$]="favorites$"
+        (ToDislike)="dislike($event)"
+        (ToLike)="like($event)"
+    >
+    </app-table>
+</ng-container>
+</ng-container>
+
+<ng-template #load>
+    <div class="loader">
+      <mat-spinner></mat-spinner>
+    </div>
+</ng-template>

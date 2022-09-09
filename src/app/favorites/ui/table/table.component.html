@@ -13,11 +13,11 @@
   </ng-container>
 
   <ng-container matColumnDef="voted">
-    <th mat-header-cell *matHeaderCellDef>voted</th>
+    <th mat-header-cell *matHeaderCellDef>Voted</th>
     <td mat-cell *matCellDef="let cat">
-      <button mat-icon-button *ngIf="cat.vote==1" (click)="dislike(cat.image_id)"><mat-icon [ngStyle]="{'color':'green'}">thumb_up</mat-icon></button>
-      <button mat-icon-button *ngIf="cat.vote==-1" (click)="remove(cat.image_id)"><mat-icon [ngStyle]="{'color':'red'}">thumb_down</mat-icon></button>
-      <button mat-icon-button *ngIf="cat.vote==null" (click)="like(cat.image_id)"><mat-icon>clear_all</mat-icon></button>
+      <button mat-icon-button *ngIf="cat.vote===1" (click)="dislike(cat.image_id,cat.voteId,cat.vote)"><mat-icon [ngStyle]="{'color':'green'}">thumb_up</mat-icon></button>
+      <button mat-icon-button *ngIf="cat.vote===-1" (click)="like(cat.image_id,cat.voteId,cat.vote)"><mat-icon [ngStyle]="{'color':'red'}">thumb_down</mat-icon></button>
+      <button mat-icon-button *ngIf="cat.vote===undefined || cat.vote===0" (click)="like(cat.image_id,cat.voteId,cat.vote)">-</button>
     </td>
   </ng-container>
 
