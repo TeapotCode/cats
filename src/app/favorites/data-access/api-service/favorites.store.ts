@@ -49,7 +49,7 @@ export class FavoritesStore extends ComponentStore<FavoritesState> {
           type: 'favourites',
           action: 'like',
         });
-        console.log({ ...img, vote: 1 });
+        // console.log({ ...img, vote: 1 });
         return { ...img, vote: 1 };
       } else {
         return img;
@@ -73,7 +73,7 @@ export class FavoritesStore extends ComponentStore<FavoritesState> {
           type: 'favourites',
           action: 'unlike',
         });
-        console.log({ ...img, vote: -1 });
+        // console.log({ ...img, vote: -1 });
         return { ...img, vote: -1, voteId: id.voteId };
       } else {
         return img;
@@ -95,7 +95,7 @@ export class FavoritesStore extends ComponentStore<FavoritesState> {
         return img;
       }
     });
-    console.log(newImage);
+    // console.log(newImage);
     return {
       ...state,
       cats: newImage,

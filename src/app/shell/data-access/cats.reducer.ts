@@ -50,10 +50,9 @@ export const catsReducer = createReducer(
   }),
 
   on(catsAction.setNotification, (state, { notifi }) => {
-    console.log('dziala', notifi);
     return {
       ...state,
-      notifications: [...state.notifications, notifi],
+      notifications: [notifi, ...state.notifications],
     };
   })
 );
