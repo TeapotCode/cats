@@ -19,15 +19,15 @@
         </button>
 
         <ng-template #favourites>
-          <mat-icon color="{{ item.action === 'like' ? 'warn' : 'black' }}"
-            >thumbsup</mat-icon
-          >
+          <mat-icon [color]="item.action === 'like' ? 'green-icon' : 'warn'">
+            {{ item.action === "like" ? " thumb_up" : " thumb_down" }}
+          </mat-icon>
         </ng-template>
 
         <div class="mat-list-text">
           <p _ngcontent-c10="" class="mat-line" matline>{{ item.name }}</p>
           <p _ngcontent-c10="" class="mat-line" matline>
-            {{ item.date | date }}
+            {{ item.date | date: "EEEE, M MMMM HH:mm:ss" }}
           </p>
         </div>
       </button>
