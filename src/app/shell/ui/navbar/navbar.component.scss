@@ -10,28 +10,14 @@ mat-toolbar {
 }
 
 .mat-menu-item {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  cursor: pointer;
-  outline: 0;
-  border: none;
-  -webkit-tap-highlight-color: transparent;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-  /** set line height to desired height */
-  line-height: 18px;
-  /** set height to auto */
+  line-height: 12px;
   height: auto;
-  padding: 0 16px;
-  text-align: left;
-  text-decoration: none;
-  max-width: 100%;
-  position: relative;
+  padding: 16px 16px 0;
   display: flex;
+
+  .header {
+    font-weight: 500;
+  }
 }
 
 .mat-green-icon {
