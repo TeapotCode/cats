@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Category } from '../utils/category.interface';
 import { Image } from '../utils/image.interface';
 import { MimeType } from '../utils/mime-type.interface';
+import { Api } from 'src/app/shell/utils/api.interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class ApiHomeService {
     if (mimeType && mimeType !== 'all')
       params = params.append('mime_types', mimeType);
 
-    return this.httpClient.get<Image[]>(
+    return this.httpClient.get<Api.RandomImage[]>(
       `https://api.thecatapi.com/v1/images/search?limit=${number}`,
       { params }
     );
