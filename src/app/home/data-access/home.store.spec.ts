@@ -8,9 +8,9 @@ import {
   provideMock,
   provideMockWithValues,
 } from '@testing-library/angular/jest-utils';
-import { of } from 'rxjs';
+import { from, of } from 'rxjs';
 import * as globalSelectors from '../../shell/data-access/cats.selector';
-import { RandomImage } from '../utils/randomImage.interface';
+import { HomeImage } from '../utils/randomImage.interface';
 import * as actions from './home.action';
 import { HomeEffects } from './home.effect';
 import { HomeState } from './home.reducer';
@@ -18,11 +18,12 @@ import * as selectors from './home.selector';
 import { HomeModule } from '../feature/home.module';
 import { ApiHomeService } from './api-home.service';
 import { selectImages } from './home.selector';
+import * as fromReducer from './home.reducer';
 
 describe('HomeStore', () => {
   describe('Selectors', () => {
     const initialState: HomeState = {
-      images: ['exampleImage' as unknown as RandomImage],
+      images: ['exampleImage' as unknown as HomeImage],
 
       categorySelected: 3,
       categories: [{ id: 3, name: 'test' }],
@@ -265,5 +266,139 @@ describe('HomeStore', () => {
     });
   });
 
-  describe('Reducer', () => {});
+  describe('Reducer', () => {
+    it('should set photos with favorite', () => {
+      const initialState = { ...fromReducer.initialState };
+      const newState = {
+        images: [
+          {
+            favoriteId: 2,
+            imageId: '3',
+            imageUrl: 'url',
+            isFavorite: true,
+            vote: 0,
+            voteId: 0,
+          },
+        ],
+      };
+
+      const action = actions.setPhotos({
+        newImages: [{ id: '3', url: 'url', width: 10, height: 10 }],
+        favImages: [
+          {
+            id: 2,
+            image_id: '3',
+            created_at: new Date(),
+            image: { id: '3', url: 'url' },
+          },
+        ],
+        voteImages: [],
+      });
+
+      const result = fromReducer.homeReducer(initialState, action);
+      expect(result).toMatchObject(newState);
+    });
+
+    it('should set photos with vote', () => {
+      const initialState = { ...fromReducer.initialState };
+      const newState = {
+        images: [
+          {
+            favoriteId: 0,
+            imageId: '3',
+            imageUrl: 'url',
+            isFavorite: false,
+            vote: 1,
+            voteId: 2,
+          },
+        ],
+      };
+
+      const action = actions.setPhotos({
+        newImages: [{ id: '3', url: 'url', width: 10, height: 10 }],
+        favImages: [],
+        voteImages: [
+          {
+            id: 2,
+            image_id: '3',
+            created_at: '1',
+            image: { id: '3', url: 'url' },
+            value: 1,
+          },
+        ],
+      });
+
+      const result = fromReducer.homeReducer(initialState, action);
+      expect(result).toMatchObject(newState);
+      expect(result).not.toBe(initialState);
+    });
+
+    it('should set image vote id', () => {
+      const initialState = {
+        ...fromReducer.initialState,
+        images: [
+          {
+            imageId: '3',
+            imageUrl: 'url',
+            vote: 0,
+            voteId: 0,
+            isFavorite: false,
+            favoriteId: 0,
+          },
+        ],
+      };
+      const newState = {
+        images: [
+          {
+            imageId: '3',
+            imageUrl: 'url',
+            vote: 1,
+            voteId: 2,
+          },
+        ],
+      };
+
+      const action = actions.setImageVoteId({
+        value: 1,
+        voteId: 2,
+        imageId: '3',
+      });
+
+      const result = fromReducer.homeReducer(initialState, action);
+      expect(result).toMatchObject(newState);
+      expect(result).not.toBe(initialState);
+    });
+
+    it('should set image favorite', () => {
+      const initialState = {
+        ...fromReducer.initialState,
+        images: [
+          {
+            imageId: '3',
+            imageUrl: 'url',
+            vote: 0,
+            voteId: 0,
+            isFavorite: false,
+            favoriteId: 0,
+          },
+        ],
+      };
+      const newState = {
+        images: [
+          {
+            imageId: '3',
+            imageUrl: 'url',
+            favoriteId: 2,
+            isFavorite: true,
+          },
+        ],
+      };
+
+      const action = actions.setFavorite({ imageId: '3', favoriteId: 2 });
+
+      const result = fromReducer.homeReducer(initialState, action);
+      expect(result).toMatchObject(newState);
+      expect(result).not.toBe(initialState);
+    });
+  });
 });

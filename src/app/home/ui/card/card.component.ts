@@ -6,7 +6,7 @@ import {
   removeVote,
   switchFavorite,
 } from '../../data-access/home.action';
-import { RandomImage } from '../../utils/randomImage.interface';
+import { HomeImage } from '../../utils/randomImage.interface';
 
 @Component({
   selector: 'app-card',
@@ -15,7 +15,7 @@ import { RandomImage } from '../../utils/randomImage.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardComponent {
-  @Input() image!: RandomImage;
+  @Input() image!: HomeImage;
 
   constructor(private store: Store) {}
 

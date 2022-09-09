@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 import { Category } from '../utils/category.interface';
-import { RandomImage } from '../utils/randomImage.interface';
+import { HomeImage } from '../utils/randomImage.interface';
 import * as homeActions from './home.action';
 import { MimeType } from '../utils/mime-type.interface';
 
 export interface HomeState {
-  images: RandomImage[];
+  images: HomeImage[];
   categorySelected: number | null;
   categories: Category[];
 
@@ -17,7 +17,7 @@ export interface HomeState {
   isLoading: boolean;
 }
 
-const initialState: HomeState = {
+export const initialState: HomeState = {
   images: [],
   categorySelected: null,
   categories: [],
@@ -33,7 +33,7 @@ export const homeReducer = createReducer(
   initialState,
 
   on(homeActions.setPhotos, (state, { newImages, voteImages, favImages }) => {
-    const images: RandomImage[] = newImages.map((newImage) => {
+    const images: HomeImage[] = newImages.map((newImage) => {
       const voteImage = voteImages.find(
         (value) => value.image_id === newImage.id
       );
@@ -71,7 +71,7 @@ export const homeReducer = createReducer(
   }),
 
   on(homeActions.setFavorite, (state, { imageId, favoriteId }) => {
-    const images: RandomImage[] = state.images.map((value) =>
+    const images: HomeImage[] = state.images.map((value) =>
       value.imageId === imageId
         ? { ...value, favoriteId, isFavorite: !!favoriteId }
         : value

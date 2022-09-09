@@ -1,4 +1,4 @@
-export interface RandomImage {
+export interface HomeImage {
   imageId: string;
   imageUrl: string;
   vote: number;
