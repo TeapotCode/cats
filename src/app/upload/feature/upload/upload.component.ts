@@ -18,20 +18,14 @@ export class UploadComponent implements OnInit {
   file!: File;
 
   uploadFiles(files: File[]) {
-    // for (let file of files) {
-    //   console.log(file);
-    //   this.store.dispatch(uploadImage({file}));
-    // }
     this.store.dispatch(uploadImage({files}));
   }
 
   onFileDropped(event: any) {
-    console.log(event);
     this.uploadFiles(event);
   }
 
-  onfileInputChange(event: any) {
-    console.log(event.target.files)
+  onFileInputChange(event: any) {
     this.uploadFiles([...event.target.files]);
   }
 
