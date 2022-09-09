@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FiltersComponent } from './filters.component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('FiltersComponent', () => {
   let component: FiltersComponent;
@@ -8,9 +9,9 @@ describe('FiltersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FiltersComponent ]
-    })
-    .compileComponents();
+      declarations: [FiltersComponent],
+      providers: [provideMockStore()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FiltersComponent);
     component = fixture.componentInstance;

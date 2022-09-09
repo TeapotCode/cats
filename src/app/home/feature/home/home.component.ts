@@ -36,22 +36,24 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   constructor(private store: Store, private ngZone: NgZone) {}
 
-  @ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
+  @ViewChild(CdkVirtualScrollViewport)
+  scroller: CdkVirtualScrollViewport | undefined;
 
   ngAfterViewInit(): void {
-    this.scroller
-      .elementScrolled()
-      .pipe(
-        map(() => this.scroller.measureScrollOffset('bottom')),
-        pairwise(),
-        filter(([y1, y2]) => y2 < y1 && y2 < 2000),
-        throttleTime(2000)
-      )
-      .subscribe(() => {
-        this.ngZone.run(() => {
-          this.store.dispatch(loadPhotos());
+    if (this.scroller)
+      this.scroller
+        .elementScrolled()
+        .pipe(
+          map(() => this.scroller!.measureScrollOffset('bottom')),
+          pairwise(),
+          filter(([y1, y2]) => y2 < y1 && y2 < 2000),
+          throttleTime(2000)
+        )
+        .subscribe(() => {
+          this.ngZone.run(() => {
+            this.store.dispatch(loadPhotos());
+          });
         });
-      });
   }
 
   trackById(index: number, image: HomeImage) {

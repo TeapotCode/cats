@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CardComponent } from './card.component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('CardComponent', () => {
   let component: CardComponent;
@@ -8,16 +9,24 @@ describe('CardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CardComponent ]
-    })
-    .compileComponents();
+      declarations: [CardComponent],
+      providers: [provideMockStore()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CardComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    component.image = {
+      imageId: '3',
+      imageUrl: 'url',
+      vote: 0,
+      voteId: 3,
+      isFavorite: false,
+      favoriteId: 0,
+    };
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });

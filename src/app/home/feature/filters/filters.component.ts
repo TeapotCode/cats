@@ -1,15 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
 import { Store } from '@ngrx/store';
 import * as homeAction from '../../data-access/home.action';
-import { MimeType } from '../../utils/mime-type.interface';
 import {
   selectBreeds,
   selectBreedSelected,
   selectCategories,
   selectCategoriesSelected,
+  selectMimeType,
 } from '../../data-access/home.selector';
-import { MatSelectChange } from '@angular/material/select';
-import { selectMimeType } from '../../data-access/home.selector';
 
 @Component({
   selector: 'app-filters',
@@ -37,7 +36,6 @@ export class FiltersComponent {
   }
 
   onTypeChange(selectChange: MatSelectChange) {
-    // console.log(mimeType);
     this.store.dispatch(
       homeAction.setMimeType({ mimeType: selectChange.value })
     );
