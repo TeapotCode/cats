@@ -18,7 +18,6 @@ export class TableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator:any= MatPaginator;
   @Output() ToDislike=new EventEmitter<toVote>();
   @Output() ToLike=new EventEmitter<toVote>();
-  @Output() ToRemove=new EventEmitter<toVote>();
 
   data:Api.FavoriteImage[]=[]
   
@@ -46,10 +45,6 @@ export class TableComponent implements OnInit {
 
   dislike(image_id:string,voteId:number,vote:number){
     this.ToDislike.emit({image_id,voteId,vote})
-  }
-
-  remove(image_id:string,voteId:number,vote:number){
-    this.ToRemove.emit({image_id,voteId,vote})
   }
 
   like(image_id:string,voteId:number,vote:number){

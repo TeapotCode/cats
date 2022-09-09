@@ -41,7 +41,7 @@ export class FavoritesStore extends ComponentStore<FavoritesState>{
     }))
 
     protected ifLike = this.updater((state, id: toVote) => {
-        console.log('like', id);
+        //console.log('like', id);
         const newImage: Favorites[] = state.cats.map((img) =>{
             if (img.image_id === id.image_id) {
                 console.log({...img, vote: 1})
@@ -54,16 +54,16 @@ export class FavoritesStore extends ComponentStore<FavoritesState>{
 
         return {
             ...state,
-            image: newImage,
+            cats: newImage,
         };
     });
 
     protected ifDislike = this.updater((state, id: toVote) => {
-        console.log('dislike', id);
+        //console.log('dislike', id);
         const newImage: Favorites[] = state.cats.map((img) =>{
             if (img.image_id === id.image_id) {
                 console.log({...img, vote: -1})
-                return { ...img, vote: -1 }
+                return { ...img, vote: -1,voteId:id.voteId}
             } else {
     
                 return img
@@ -72,24 +72,24 @@ export class FavoritesStore extends ComponentStore<FavoritesState>{
 
         return {
             ...state,
-            image: newImage,
+            cats: newImage,
         };
     });
 
     protected ifRemoveVote = this.updater((state, id: toVote) => {
         const newImage: Favorites[] = state.cats.map((img) =>{
         if (img.image_id === id.image_id) {
-            console.log({...img, vote: 0})
+            //console.log({...img, vote: 0})
             return { ...img, vote: 0 }
         } else {
 
             return img
         }}
     );
-
+        console.log(newImage)
         return {
             ...state,
-            image: newImage,
+            cats: newImage,
         };
     });
 
@@ -158,14 +158,14 @@ export class FavoritesStore extends ComponentStore<FavoritesState>{
         return cats$.pipe(
             mergeMap((cat) =>
                 this.api.removeVote(cat.voteId).pipe(
-                    tap(
-                        {
-                            next: (result) => this.ifRemoveVote(cat),
-                            error: (e) => console.error(e)
-                        }
+                    tap(()=>this.ifRemoveVote(cat))
+                        //{
+                            //next: (result) => this.ifRemoveVote(cat),
+                            //error: (e) => console.error(e)
+                        //}
                     )
                 ))
-        )
+        
 
     });
 }

@@ -28,14 +28,9 @@ export class FavoritesComponent implements OnInit {
 
 
   dislike(cat:toVote){
-    // this.favoriteStore.delete(cat)
+    this.favoriteStore.delete(cat)
     this.favoriteStore.dislike(cat)
   }
-
-  remove(cat:toVote){
-    this.favoriteStore.delete(cat)
-  }
-
   like(cat:toVote){
     this.favoriteStore.like(cat)
   }
