@@ -109,7 +109,9 @@ describe('HomeStore', () => {
 
       effects.setPhotos$.subscribe((action) => {
         expect(action.type).toBe(actions.setPhotos.type);
-        expect(action.newImages).toMatchObject([{ id: 'id', url: 'url' }]);
+        if (action.type === actions.setPhotos.type) {
+          expect(action.newImages).toMatchObject([{ id: 'id', url: 'url' }]);
+        }
         expect(getImagesSpy).toHaveBeenNthCalledWith(1, 10, 3, 3, 'all');
         done();
       });
@@ -123,9 +125,10 @@ describe('HomeStore', () => {
       effects.likeImage$.subscribe((action) => {
         expect(sendVoteSpy).toHaveBeenNthCalledWith(1, 1, '2');
         expect(action.type).toBe(actions.setImageVoteId.type);
-        expect(action.value).toBe(1);
-        expect(action.voteId).toBe(3);
-
+        if (action.type === actions.setImageVoteId.type) {
+          expect(action.value).toBe(1);
+          expect(action.voteId).toBe(3);
+        }
         done();
       });
     });
@@ -138,8 +141,10 @@ describe('HomeStore', () => {
       effects.dislikeImage$.subscribe((action) => {
         expect(sendVoteSpy).toHaveBeenNthCalledWith(1, -1, '2');
         expect(action.type).toBe(actions.setImageVoteId.type);
-        expect(action.value).toBe(-1);
-        expect(action.voteId).toBe(3);
+        if (action.type === actions.setImageVoteId.type) {
+          expect(action.value).toBe(-1);
+          expect(action.voteId).toBe(3);
+        }
 
         done();
       });
@@ -155,8 +160,10 @@ describe('HomeStore', () => {
       effects.removeVote$.subscribe((action) => {
         expect(removeVoteSpy).toHaveBeenNthCalledWith(1, 3);
         expect(action.type).toBe(actions.setImageVoteId.type);
-        expect(action.value).toBe(0);
-        expect(action.voteId).toBe(0);
+        if (action.type === actions.setImageVoteId.type) {
+          expect(action.value).toBe(0);
+          expect(action.voteId).toBe(0);
+        }
 
         done();
       });
@@ -183,7 +190,8 @@ describe('HomeStore', () => {
       effects.switchFav$.subscribe((action) => {
         expect(removeFavSpy).toHaveBeenNthCalledWith(1, 5);
         expect(action.type).toBe(actions.setFavorite.type);
-        expect(action.favoriteId).toBe(0);
+        if (action.type === actions.setFavorite.type)
+          expect(action.favoriteId).toBe(0);
 
         done();
       });
@@ -210,7 +218,8 @@ describe('HomeStore', () => {
       effects.switchFav$.subscribe((action) => {
         expect(setFavSpy).toHaveBeenNthCalledWith(1, '3');
         expect(action.type).toBe(actions.setFavorite.type);
-        expect(action.favoriteId).toBe(5);
+        if (action.type === actions.setFavorite.type)
+          expect(action.favoriteId).toBe(5);
 
         done();
       });
@@ -232,7 +241,8 @@ describe('HomeStore', () => {
       effects.loadCategories$.subscribe((action) => {
         expect(getCategorySpy).toHaveBeenCalledTimes(1);
         expect(action.type).toBe(actions.setCategories.type);
-        expect(action.categories).toBe(categories);
+        if (action.type === actions.setCategories.type)
+          expect(action.categories).toBe(categories);
 
         done();
       });
@@ -254,7 +264,8 @@ describe('HomeStore', () => {
       effects.loadBreeds$.subscribe((action) => {
         expect(getBreedsSpy).toHaveBeenCalledTimes(1);
         expect(action.type).toBe(actions.setBreeds.type);
-        expect(action.breeds).toBe(breeds);
+        if (action.type === actions.setBreeds.type)
+          expect(action.breeds).toBe(breeds);
 
         done();
       });
