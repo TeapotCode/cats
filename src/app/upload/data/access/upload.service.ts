@@ -17,7 +17,6 @@ export class UploadService {
   }
 
   public upload(file: File) {
-    console.log('upload called');
     const formData = new FormData();
     formData.append("file", file, file.name);
     return this.httpClient.post(`${this.SERVER_URL}/upload`, formData, this.options);
@@ -28,7 +27,6 @@ export class UploadService {
   }
 
   public deleteImage(image: Image) {
-    console.log(image.id);
     return this.httpClient.delete(`${this.SERVER_URL}/${image.id}`, this.options)
   }
 
