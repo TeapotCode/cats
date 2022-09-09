@@ -11,6 +11,8 @@ export const loadPhotos = createAction(
   '[Home PAGE] Load random images request'
 );
 
+export const emptyError = createAction('[Home STORE] Http Error occurred');
+
 export const setPhotos = createAction(
   '[Home PAGE] Set random images',
   props<{

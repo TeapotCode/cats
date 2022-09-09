@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { map, switchMap } from 'rxjs';
+import { map, switchMap, catchError, of } from 'rxjs';
 import { selectAll } from '../../shell/data-access/cats.selector';
 import { ApiHomeService } from './api-home.service';
 import * as homeAction from './home.action';
@@ -36,7 +36,8 @@ export class HomeEffects {
               voteImages: state.voteImages,
               favImages: state.favoriteImages,
             })
-          )
+          ),
+          catchError(() => of(homeAction.emptyError()))
         )
       )
     )
@@ -53,7 +54,8 @@ export class HomeEffects {
               voteId: response.id,
               imageId,
             })
-          )
+          ),
+          catchError(() => of(homeAction.emptyError()))
         )
       )
     )
@@ -70,7 +72,8 @@ export class HomeEffects {
               voteId: response.id,
               imageId,
             })
-          )
+          ),
+          catchError(() => of(homeAction.emptyError()))
         )
       )
     )
@@ -87,7 +90,8 @@ export class HomeEffects {
               voteId: 0,
               imageId,
             })
-          )
+          ),
+          catchError(() => of(homeAction.emptyError()))
         )
       )
     )
@@ -100,11 +104,10 @@ export class HomeEffects {
       switchMap(([{ imageId }, images]) => {
         const image = images.find((value) => value.imageId === imageId);
         if (image?.isFavorite) {
-          return this.api
-            .removeFavorite(image.favoriteId)
-            .pipe(
-              map((_) => homeAction.setFavorite({ imageId, favoriteId: 0 }))
-            );
+          return this.api.removeFavorite(image.favoriteId).pipe(
+            map((_) => homeAction.setFavorite({ imageId, favoriteId: 0 })),
+            catchError(() => of(homeAction.emptyError()))
+          );
         }
 
         return this.api.setFavorite(imageId).pipe(
@@ -113,7 +116,8 @@ export class HomeEffects {
               favoriteId: +response.id,
               imageId: imageId,
             })
-          )
+          ),
+          catchError(() => of(homeAction.emptyError()))
         );
       })
     )
@@ -123,7 +127,8 @@ export class HomeEffects {
     this.actions$.pipe(
       ofType(homeAction.loadCategories),
       switchMap(() => this.api.getCategories()),
-      map((categories) => homeAction.setCategories({ categories }))
+      map((categories) => homeAction.setCategories({ categories })),
+      catchError(() => of(homeAction.emptyError()))
     )
   );
 
@@ -131,7 +136,8 @@ export class HomeEffects {
     this.actions$.pipe(
       ofType(homeAction.loadBreeds),
       switchMap(() => this.api.getBreeds()),
-      map((breeds) => homeAction.setBreeds({ breeds }))
+      map((breeds) => homeAction.setBreeds({ breeds })),
+      catchError(() => of(homeAction.emptyError()))
     )
   );
 
