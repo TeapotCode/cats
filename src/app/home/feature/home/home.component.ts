@@ -15,7 +15,7 @@ import {
   loadPhotos,
 } from '../../data-access/home.action';
 import { selectImages, selectIsLoading } from '../../data-access/home.selector';
-import { RandomImage } from '../../utils/randomImage.interface';
+import { HomeImage } from '../../utils/randomImage.interface';
 import { resetRandomImages } from '../../data-access/home.action';
 @Component({
   selector: 'app-home',
@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       });
   }
 
-  trackById(index: number, image: RandomImage) {
+  trackById(index: number, image: HomeImage) {
     return image.imageId;
   }
 }
