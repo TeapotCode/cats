@@ -4,21 +4,16 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from '@ngrx/store';
 import { getMockStore, MockStore, provideMockStore } from '@ngrx/store/testing';
-import {
-  provideMock,
-  provideMockWithValues,
-} from '@testing-library/angular/jest-utils';
-import { from, of } from 'rxjs';
+import { provideMockWithValues } from '@testing-library/angular/jest-utils';
+import { of } from 'rxjs';
 import * as globalSelectors from '../../shell/data-access/cats.selector';
 import { HomeImage } from '../utils/randomImage.interface';
+import { ApiHomeService } from './api-home.service';
 import * as actions from './home.action';
 import { HomeEffects } from './home.effect';
+import * as fromReducer from './home.reducer';
 import { HomeState } from './home.reducer';
 import * as selectors from './home.selector';
-import { HomeModule } from '../feature/home.module';
-import { ApiHomeService } from './api-home.service';
-import { selectImages } from './home.selector';
-import * as fromReducer from './home.reducer';
 
 describe('HomeStore', () => {
   describe('Selectors', () => {
