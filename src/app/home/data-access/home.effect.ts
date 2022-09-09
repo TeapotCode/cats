@@ -93,7 +93,7 @@ export class HomeEffects {
     )
   );
 
-  switchVote$ = createEffect(() =>
+  switchFav$ = createEffect(() =>
     this.actions$.pipe(
       ofType(homeAction.switchFavorite),
       concatLatestFrom(() => this.store.select(selectImages)),
@@ -135,7 +135,7 @@ export class HomeEffects {
     )
   );
 
-  switchCategory$ = createEffect(() =>
+  clearImages$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
         homeAction.switchCategory,
