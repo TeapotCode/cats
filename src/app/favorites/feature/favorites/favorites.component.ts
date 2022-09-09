@@ -10,7 +10,8 @@ import { toVote } from '../../utils/toVote';
 @Component({
   selector: 'app-favorites',
   templateUrl: './favorites.component.html',
-  styleUrls: ['./favorites.component.scss']
+  styleUrls: ['./favorites.component.scss'],
+  providers:[FavoritesStore]
 })
 
 
@@ -18,15 +19,16 @@ import { toVote } from '../../utils/toVote';
 export class FavoritesComponent implements OnInit {
 
   constructor(private store: Store, private favoriteStore:FavoritesStore) {}
-  favorites$=this.store.select(selectFavouritesImages)
+  favorites$=this.favoriteStore.selectFavorites();
+  loader$:Observable<boolean>=this.favoriteStore.selectLoader();
 
   ngOnInit(): void {
-    this.favorites$=this.store.select(selectFavouritesImages)
+    this.favoriteStore.getFavorites({})
   }
 
 
   dislike(cat:toVote){
-    this.favoriteStore.delete(cat)
+    // this.favoriteStore.delete(cat)
     this.favoriteStore.dislike(cat)
   }
 
