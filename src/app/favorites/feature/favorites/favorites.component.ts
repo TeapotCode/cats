@@ -18,7 +18,7 @@ import { toVote } from '../../utils/toVote';
 
 export class FavoritesComponent implements OnInit {
 
-  constructor(private store: Store, private favoriteStore:FavoritesStore) {}
+  constructor(private favoriteStore:FavoritesStore) {}
   favorites$=this.favoriteStore.selectFavorites();
   loader$:Observable<boolean>=this.favoriteStore.selectLoader();
 

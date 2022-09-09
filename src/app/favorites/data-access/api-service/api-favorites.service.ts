@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { catchError,Observable } from 'rxjs';
 import { Favorites } from '../../utils/favorites';
 import { Store } from '@ngrx/store';
-import { loadFromApi } from 'src/app/shell/data-access/cats.action';
-import { selectFavouritesImages } from 'src/app/shell/data-access/cats.selector';
+import * as catsActions from '../../../shell/data-access/cats.action'
+import * as catsSelector from '../../../shell/data-access/cats.selector'
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,8 @@ constructor(private store:Store, private http: HttpClient) { }
 
 getFavorites():Observable<Favorites[]>
 {
-  this.store.dispatch(loadFromApi());
-  return this.store.select(selectFavouritesImages);
+  this.store.dispatch(catsActions.loadFromApi());
+  return this.store.select(catsSelector.selectFavouritesImages);
 }
 
 sendVote(value: number, imageId: string) {
