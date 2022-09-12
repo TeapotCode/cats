@@ -6,7 +6,33 @@
     <a mat-button routerLink="/votes">Votes</a>
     <a mat-button routerLink="/upload">Upload</a>
   </div>
-  <button mat-icon-button>
-    <mat-icon matBadge="0">notifications</mat-icon>
-  </button>
+  <ng-container *ngIf="notifications | async as notifi">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon matBadge="{{ notifi.length }}">notifications</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item *ngFor="let item of notifi">
+        <button mat-icon-button *ngIf="item.type === 'votes'; else favourites">
+          <mat-icon color="{{ item.action === 'like' ? 'warn' : 'black' }}"
+            >favorite</mat-icon
+          >
+        </button>
+
+        <ng-template #favourites>
+          <mat-icon [color]="item.action === 'like' ? 'green-icon' : 'warn'">
+            {{ item.action === "like" ? " thumb_up" : " thumb_down" }}
+          </mat-icon>
+        </ng-template>
+
+        <div class="mat-list-text">
+          <p _ngcontent-c10="" class="mat-line header" matline>
+            {{ item.name }}
+          </p>
+          <p _ngcontent-c10="" class="mat-line" matline>
+            {{ item.date | date: "EEEE, M MMMM HH:mm:ss" }}
+          </p>
+        </div>
+      </button>
+    </mat-menu>
+  </ng-container>
 </mat-toolbar>

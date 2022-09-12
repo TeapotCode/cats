@@ -8,3 +8,18 @@ mat-toolbar {
   justify-content: space-between;
   width: 30%;
 }
+
+.mat-menu-item {
+  line-height: 12px;
+  height: auto;
+  padding: 16px 16px 0;
+  display: flex;
+
+  .header {
+    font-weight: 500;
+  }
+}
+
+.mat-green-icon {
+  color: green;
+}

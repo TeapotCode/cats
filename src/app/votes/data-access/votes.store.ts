@@ -33,9 +33,20 @@ export class VotesStore extends ComponentStore<VotesState> {
   }));
 
   readonly updateImagesIfDislike = this.updater((state, id: number) => {
-    const newImage: voteImages[] = state.image.map((img) =>
-      img.favoriteId === id ? { ...img, isFavorite: false } : img
-    );
+    const newImage: voteImages[] = state.image.map((img) => {
+      if (img.favoriteId === id) {
+        this.api.setNotifications({
+          name: 'Usunięto z ulubionych',
+          date: Date.now(),
+          id: img.id,
+          type: 'votes',
+          action: 'unlike',
+        });
+        return { ...img, isFavorite: false };
+      } else {
+        return img;
+      }
+    });
 
     return {
       ...state,
@@ -44,11 +55,20 @@ export class VotesStore extends ComponentStore<VotesState> {
   });
 
   readonly updateImagesIfLike = this.updater((state, id: helperIfLike) => {
-    const newImage: voteImages[] = state.image.map((img) =>
-      img.image_id === id.id
-        ? { ...img, isFavorite: true, favoriteId: id.result.id }
-        : img
-    );
+    const newImage: voteImages[] = state.image.map((img) => {
+      if (img.image_id === id.id) {
+        this.api.setNotifications({
+          name: 'Dodano do ulubionych',
+          date: Date.now(),
+          id: img.id,
+          type: 'votes',
+          action: 'like',
+        });
+        return { ...img, isFavorite: true, favoriteId: id.result.id };
+      } else {
+        return img;
+      }
+    });
 
     return {
       ...state,

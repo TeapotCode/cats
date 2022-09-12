@@ -1,15 +1,18 @@
 import { createReducer, on } from '@ngrx/store';
 import { FavoriteVoteImage, VoteFavImage } from '../utils/api.interfaces';
+import { Notification } from '../utils/notification.model';
 import * as catsAction from './cats.action';
 
 export interface CatsState {
   voteImages: VoteFavImage[];
   favoriteImages: FavoriteVoteImage[];
+  notifications: Notification[];
 }
 
 const initialState: CatsState = {
   voteImages: [],
   favoriteImages: [],
+  notifications: [],
 };
 
 export const catsReducerKey = 'cats';
@@ -43,6 +46,13 @@ export const catsReducer = createReducer(
       ...state,
       favoriteImages: newFavImages,
       voteImages: newVoteImages,
+    };
+  }),
+
+  on(catsAction.setNotification, (state, { notifi }) => {
+    return {
+      ...state,
+      notifications: [notifi, ...state.notifications],
     };
   })
 );

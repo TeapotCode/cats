@@ -27,3 +27,8 @@ export const selectAll = createSelector(
   selectFeature,
   (state: CatsState) => state
 );
+
+export const selectAllNotifications = createSelector(
+  selectFeature,
+  (state: CatsState) => state.notifications
+);
